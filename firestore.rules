@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    function str(v, min, max) { return v is string && v.size() >= min && v.size() <= max; }
+
+    // Admin list: managed only from the Firebase Console
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // User profiles and their private soil analyses
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'email', 'phone', 'location', 'createdAt'])
+        && (!('name' in request.resource.data) || str(request.resource.data.name, 1, 60));
+      allow delete: if false;
+
+      match /soil/{entryId} {
+        allow read, write: if signedIn() && request.auth.uid == uid;
+      }
+    }
+
+    // Marketplace listings: public to read, owner-controlled
+    function validListing(d) {
+      return d.keys().hasOnly(['name', 'price', 'category', 'qty', 'unit', 'location', 'seller', 'phone',
+                               'availability', 'desc', 'dateAdded', 'image', 'icon', 'ownerId'])
+        && str(d.name, 2, 80) && d.price is number && d.price > 0
+        && d.category in ['Vegetables', 'Grains', 'Fruits', 'Livestock', 'Inputs', 'Other']
+        && d.qty is number && d.qty > 0
+        && str(d.unit, 1, 20) && str(d.location, 2, 60) && str(d.seller, 2, 60) && str(d.phone, 8, 20)
+        && d.availability in ['Available', 'Limited', 'Pre-order', 'Sold']
+        && str(d.desc, 0, 1000) && d.dateAdded is number
+        && (d.image == null || str(d.image, 10, 800000))
+        && str(d.icon, 1, 8);
+    }
+    match /listings/{id} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.ownerId == request.auth.uid
+        && validListing(request.resource.data);
+      allow update: if signedIn() && resource.data.ownerId == request.auth.uid
+        && request.resource.data.ownerId == resource.data.ownerId
+        && validListing(request.resource.data);
+      allow delete: if signedIn() && (resource.data.ownerId == request.auth.uid || isAdmin());
+    }
+
+    // Announcements: everyone reads, only admins write
+    match /announcements/{id} {
+      allow read: if true;
+      allow create: if isAdmin() && str(request.resource.data.title, 3, 80)
+        && str(request.resource.data.body, 3, 500) && request.resource.data.timestamp is number;
+      allow delete: if isAdmin();
+      allow update: if false;
+    }
+  }
+}

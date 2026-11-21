@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GreenField — Soil, Weather &amp; Farm Market</title>
+<meta name="description" content="GreenField: soil assessment, agricultural weather advice and a farm produce marketplace for Nigerian farmers.">
+<meta name="theme-color" content="#3a7d44">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="GreenField">
+<script src="config.js"></script>
+</head>
+<body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+:root {
+  --bg:#f5f7f2;--bg2:#ffffff;--bg3:#eef1eb;--fg:#1a2210;--fg2:#4a5c38;--fg3:#7a8f68;
+  --accent:#3a7d44;--accent2:#2d6235;--accent-light:#d4edda;
+  --warn:#e67e22;--warn-light:#fdf0e0;--danger:#c0392b;--danger-light:#fdecea;
+  --info:#2980b9;--info-light:#d6eaf8;--border:#d8e4cc;
+  --shadow:0 2px 12px rgba(58,125,68,.10);--shadow-lg:0 8px 32px rgba(58,125,68,.14);
+  --radius:14px;--radius-sm:8px;--nav-h:62px;--bnav-h:64px;color-scheme:light;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131a0e;--bg2:#1e2a16;--bg3:#273320;--fg:#e8f0e0;--fg2:#b0c89a;--fg3:#7a9468;
+  --accent:#4caf60;--accent2:#3d9a50;--accent-light:#1a3020;
+  --warn:#f0a040;--warn-light:#2a1e0a;--danger:#e05040;--danger-light:#2a1010;
+  --info:#4a9fd0;--info-light:#0e1e2a;--border:#2e3d24;
+  --shadow:0 2px 12px rgba(0,0,0,.30);--shadow-lg:0 8px 32px rgba(0,0,0,.40);color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#131a0e;--bg2:#1e2a16;--bg3:#273320;--fg:#e8f0e0;--fg2:#b0c89a;--fg3:#7a9468;
+  --accent:#4caf60;--accent2:#3d9a50;--accent-light:#1a3020;
+  --warn:#f0a040;--warn-light:#2a1e0a;--danger:#e05040;--danger-light:#2a1010;
+  --info:#4a9fd0;--info-light:#0e1e2a;--border:#2e3d24;
+  --shadow:0 2px 12px rgba(0,0,0,.30);--shadow-lg:0 8px 32px rgba(0,0,0,.40);color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+img{max-width:100%}
+button{cursor:pointer;font-family:inherit}
+input,select,textarea{font-family:inherit}
+
+/* NAV */
+.top-nav{position:sticky;top:env(safe-area-inset-top,0);z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);height:var(--nav-h);display:flex;align-items:center;padding:0 16px;gap:8px;box-shadow:var(--shadow)}
+.nav-brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.1rem;color:var(--accent);margin-right:auto}
+.nav-brand-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{background:none;border:none;padding:8px 14px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;color:var(--fg3);transition:all .2s;position:relative}
+.nav-tab.active{background:var(--accent-light);color:var(--accent)}
+.nav-tab:hover:not(.active){background:var(--bg3)}
+.nav-badge{position:absolute;top:4px;right:4px;background:var(--danger);color:#fff;border-radius:99px;font-size:.6rem;font-weight:700;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.theme-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;font-size:1rem;color:var(--fg);transition:all .2s}
+.theme-btn:hover{background:var(--bg3)}
+@media(max-width:700px){.nav-tabs{display:none}}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg2);border-top:1px solid var(--border);height:var(--bnav-h);padding-bottom:env(safe-area-inset-bottom,0);display:none;align-items:center;justify-content:space-around}
+@media(max-width:700px){.bnav{display:flex}}
+.bnav-btn{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 12px;border-radius:var(--radius-sm);color:var(--fg3);font-size:.65rem;font-weight:600;transition:all .2s;position:relative}
+.bnav-btn.active{color:var(--accent)}
+.bnav-btn .bnav-icon{font-size:1.3rem;line-height:1}
+.bnav-badge{position:absolute;top:4px;right:8px;background:var(--danger);color:#fff;border-radius:99px;font-size:.55rem;font-weight:700;min-width:14px;height:14px;display:flex;align-items:center;justify-content:center;padding:0 3px}
+
+/* PAGES */
+.page{display:none;min-height:calc(100vh - var(--nav-h));padding:20px 16px;padding-bottom:calc(var(--bnav-h) + 20px)}
+.page.active{display:block}
+@media(min-width:701px){.page{padding-bottom:20px}}
+.page-title{font-size:1.5rem;font-weight:800;color:var(--fg);margin-bottom:4px}
+.page-sub{color:var(--fg3);font-size:.9rem;margin-bottom:20px}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.card+.card{margin-top:12px}
+.card-title{font-size:1rem;font-weight:700;color:var(--fg);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card-title .icon{font-size:1.1rem}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:var(--radius-sm);font-size:.9rem;font-weight:600;border:none;transition:all .2s;cursor:pointer}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-primary:active{transform:translateY(0)}
+.btn-secondary{background:var(--bg3);color:var(--fg);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--border)}
+.btn-danger{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger)}
+.btn-sm{padding:6px 14px;font-size:.8rem}
+.btn-full{width:100%;justify-content:center}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+
+/* FORM ELEMENTS */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:.85rem;font-weight:600;color:var(--fg2);margin-bottom:6px}
+.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--fg);font-size:.9rem;transition:border-color .2s}
+.form-input:focus{outline:none;border-color:var(--accent)}
+.form-input::placeholder{color:var(--fg3)}
+.form-error{font-size:.78rem;color:var(--danger);margin-top:4px;display:none}
+.form-error.show{display:block}
+.form-hint{font-size:.78rem;color:var(--fg3);margin-top:4px}
+select.form-input{cursor:pointer}
+
+/* SELECTORS */
+.option-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.opt-btn{background:var(--bg3);border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:.82rem;font-weight:600;color:var(--fg2);cursor:pointer;transition:all .2s;text-align:center}
+.opt-btn:hover{border-color:var(--accent);color:var(--accent)}
+.opt-btn.selected{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+
+/* STATUS BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:99px;font-size:.75rem;font-weight:700}
+.badge-good{background:var(--accent-light);color:var(--accent)}
+.badge-warn{background:var(--warn-light);color:var(--warn)}
+.badge-danger{background:var(--danger-light);color:var(--danger)}
+.badge-info{background:var(--info-light);color:var(--info)}
+.badge-grey{background:var(--bg3);color:var(--fg3)}
+
+/* LEVEL BARS */
+.level-bar{display:flex;align-items:center;gap:8px;margin:4px 0}
+.level-label{font-size:.78rem;color:var(--fg3);width:100px;flex-shrink:0}
+.level-track{flex:1;height:8px;background:var(--bg3);border-radius:99px;overflow:hidden}
+.level-fill{height:100%;border-radius:99px;transition:width .6s ease}
+.level-fill.low{background:#e74c3c;width:25%}
+.level-fill.moderate{background:#f39c12;width:50%}
+.level-fill.good{background:#27ae60;width:75%}
+.level-fill.high{background:#2980b9;width:90%}
+.level-fill.excellent{background:#8e44ad;width:100%}
+.level-text{font-size:.72rem;font-weight:700;width:60px;text-align:right}
+.level-text.low{color:#e74c3c}
+.level-text.moderate{color:#f39c12}
+.level-text.good{color:#27ae60}
+.level-text.high{color:#2980b9}
+.level-text.excellent{color:#8e44ad}
+
+/* TOASTS */
+.toast-container{position:fixed;top:80px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;font-size:.85rem;font-weight:600;box-shadow:var(--shadow-lg);pointer-events:all;display:flex;align-items:center;gap:8px;min-width:220px;max-width:320px;animation:slideInRight .3s ease;opacity:1;transition:opacity .3s}
+.toast.hiding{opacity:0}
+.toast-success{border-left:4px solid var(--accent)}
+.toast-error{border-left:4px solid var(--danger)}
+.toast-info{border-left:4px solid var(--info)}
+@keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.5);backdrop-filter:blur(2px);align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+@media(min-width:600px){.modal-overlay{align-items:center}}
+.modal{background:var(--bg2);border-radius:var(--radius) var(--radius) 0 0;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;animation:slideUp .3s ease}
+@media(min-width:600px){.modal{border-radius:var(--radius);max-height:85vh}}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1;border-bottom:1px solid var(--border);padding-bottom:16px}
+.modal-title{font-size:1.1rem;font-weight:700}
+.modal-close{background:none;border:none;font-size:1.4rem;color:var(--fg3);cursor:pointer;padding:4px;border-radius:var(--radius-sm);transition:all .2s}
+.modal-close:hover{background:var(--bg3);color:var(--fg)}
+.modal-body{padding:20px}
+
+/* SKELETON */
+.skeleton{background:linear-gradient(90deg,var(--bg3) 25%,var(--border) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--radius-sm)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* HOME */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow)}
+.stat-num{font-size:1.6rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat-label{font-size:.72rem;color:var(--fg3);font-weight:600;margin-top:2px}
+.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.qa-btn{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .2s;font-weight:600;font-size:.85rem;color:var(--fg2)}
+.qa-btn:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.qa-btn .qa-icon{font-size:1.8rem}
+.tip-card{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:var(--radius);padding:20px;margin-bottom:20px}
+.tip-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;opacity:.8;margin-bottom:6px}
+.tip-text{font-size:.95rem;font-family:'Lora',serif;line-height:1.5}
+.home-weather-snap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:20px;box-shadow:var(--shadow)}
+.hws-inner{display:flex;align-items:center;gap:16px}
+.hws-icon{font-size:2.4rem}
+.hws-temp{font-size:2rem;font-weight:800;color:var(--fg)}
+.hws-info{flex:1}
+.hws-cond{font-size:.9rem;font-weight:600;color:var(--fg2)}
+.hws-loc{font-size:.78rem;color:var(--fg3)}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.section-title{font-size:1rem;font-weight:700;color:var(--fg)}
+.link-btn{background:none;border:none;color:var(--accent);font-size:.82rem;font-weight:600;cursor:pointer}
+
+/* WEATHER */
+.weather-location-bar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.weather-location-bar select{flex:1;min-width:160px}
+.weather-refresh-btn{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 14px;font-size:.85rem;font-weight:600;color:var(--fg2);cursor:pointer;transition:all .2s;white-space:nowrap}
+.weather-refresh-btn:hover{background:var(--accent-light);color:var(--accent);border-color:var(--accent)}
+.weather-refresh-btn:disabled{opacity:.5;cursor:not-allowed}
+.weather-updated{font-size:.75rem;color:var(--fg3);margin-bottom:12px}
+.weather-current-card{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.wcc-top{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.wcc-icon{font-size:3rem}
+.wcc-temp{font-size:3rem;font-weight:800;line-height:1}
+.wcc-cond{font-size:1rem;opacity:.9}
+.wcc-loc{font-size:.82rem;opacity:.7}
+.wcc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.wcc-stat{text-align:center}
+.wcc-stat-val{font-size:1rem;font-weight:700}
+.wcc-stat-label{font-size:.68rem;opacity:.7}
+.weather-skeleton{display:none}
+.weather-skeleton.show{display:block}
+.skel-box{height:140px;border-radius:var(--radius);margin-bottom:12px}
+.weather-error{display:none;background:var(--danger-light);border:1px solid var(--danger);border-radius:var(--radius);padding:20px;text-align:center}
+.weather-error.show{display:block}
+.weather-content{display:none}
+.weather-content.show{display:block}
+
+/* 7-DAY FORECAST */
+.forecast-label{font-size:.82rem;font-weight:700;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.forecast-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-ms-overflow-style:none}
+.forecast-scroll::-webkit-scrollbar{display:none}
+.forecast-day{min-width:88px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 8px;text-align:center;transition:all .2s}
+.forecast-day.today{background:var(--accent-light);border-color:var(--accent)}
+.forecast-day:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.fd-day{font-size:.72rem;font-weight:700;color:var(--fg3);text-transform:uppercase}
+.fd-date{font-size:.7rem;color:var(--fg3);margin-bottom:6px}
+.fd-icon{font-size:1.6rem;margin-bottom:4px}
+.fd-cond{font-size:.68rem;color:var(--fg2);margin-bottom:8px;line-height:1.2}
+.fd-temps{display:flex;justify-content:center;gap:6px;font-size:.78rem;font-weight:700;margin-bottom:4px}
+.fd-max{color:var(--warn)}
+.fd-min{color:var(--info)}
+.fd-rain{font-size:.68rem;color:var(--info);margin-top:2px}
+.fd-prob{font-size:.65rem;color:var(--fg3)}
+
+/* AGRI ADVICE */
+.agri-advice{margin-top:16px}
+.agri-advice-header{font-size:.72rem;color:var(--fg3);font-style:italic;margin-bottom:12px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border-left:3px solid var(--accent)}
+.advice-section{margin-bottom:12px;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.advice-section-header{background:var(--bg3);padding:10px 14px;font-size:.82rem;font-weight:700;color:var(--fg2);display:flex;align-items:center;gap:8px}
+.advice-section-body{padding:12px 14px;font-size:.85rem;color:var(--fg);line-height:1.5}
+
+/* SOIL */
+.soil-photo-area{border:2px dashed var(--border);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:4px}
+.soil-photo-area:hover{border-color:var(--accent);background:var(--accent-light)}
+.soil-photo-area.has-image{border-style:solid;border-color:var(--accent);padding:0;overflow:hidden}
+.soil-photo-preview{width:100%;max-height:200px;object-fit:cover;display:block;border-radius:calc(var(--radius) - 2px)}
+.soil-photo-controls{display:flex;gap:8px;margin-top:8px}
+.soil-result-section{margin-bottom:16px}
+.soil-result-section h3{font-size:.85rem;font-weight:700;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.nutrient-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nutrient-card{background:var(--bg3);border-radius:var(--radius-sm);padding:12px}
+.nc-label{font-size:.72rem;color:var(--fg3);font-weight:600;margin-bottom:4px}
+.nc-value{font-size:1.1rem;font-weight:800;color:var(--fg);margin-bottom:4px;font-variant-numeric:tabular-nums}
+.nc-unit{font-size:.65rem;color:var(--fg3)}
+.caution-box{background:var(--warn-light);border:1px solid var(--warn);border-radius:var(--radius-sm);padding:12px;font-size:.82rem;color:var(--warn);margin-top:12px;line-height:1.4}
+.estimate-disclaimer{background:var(--info-light);border:1px solid var(--info);border-radius:var(--radius-sm);padding:10px 14px;font-size:.78rem;color:var(--info);margin-bottom:16px;line-height:1.4}
+
+/* SOIL HISTORY */
+.history-entry{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;margin-bottom:8px}
+.history-entry:hover{border-color:var(--accent);background:var(--accent-light)}
+.he-color{width:36px;height:36px;border-radius:50%;flex-shrink:0;border:2px solid var(--border)}
+.he-info{flex:1;min-width:0}
+.he-title{font-size:.88rem;font-weight:700;color:var(--fg)}
+.he-meta{font-size:.73rem;color:var(--fg3)}
+.he-badge{flex-shrink:0}
+.he-del{background:none;border:none;color:var(--fg3);font-size:1rem;cursor:pointer;padding:4px;border-radius:4px;transition:all .2s}
+.he-del:hover{color:var(--danger);background:var(--danger-light)}
+
+/* MARKETPLACE */
+.market-search-bar{display:flex;gap:8px;margin-bottom:12px}
+.market-search-bar input{flex:1}
+.market-result-count{font-size:.8rem;color:var(--fg3);margin-bottom:12px}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.filter-chip{background:var(--bg3);border:1.5px solid var(--border);border-radius:99px;padding:5px 14px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--fg2);white-space:nowrap}
+.filter-chip.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.filter-chip:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+.filter-expand{display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);margin-bottom:12px;border:1px solid var(--border);display:none}
+.filter-expand.show{display:flex}
+.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+@media(max-width:400px){.market-grid{grid-template-columns:1fr 1fr}}
+.product-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .2s;position:relative}
+.product-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.product-img{width:100%;height:110px;object-fit:cover;display:block;background:var(--bg3)}
+.product-img-placeholder{width:100%;height:110px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.product-body{padding:10px}
+.product-name{font-size:.85rem;font-weight:700;color:var(--fg);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-price{font-size:.95rem;font-weight:800;color:var(--accent)}
+.product-meta{font-size:.7rem;color:var(--fg3);margin-top:4px}
+.product-location{font-size:.68rem;color:var(--fg3);display:flex;align-items:center;gap:3px;margin-top:3px}
+.fav-btn{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.85);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .2s;backdrop-filter:blur(4px)}
+.fav-btn:hover{transform:scale(1.2)}
+.fav-btn.active{color:#e74c3c;animation:heartPop .3s ease}
+@keyframes heartPop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+.empty-state{text-align:center;padding:48px 20px;color:var(--fg3)}
+.empty-state .es-icon{font-size:3rem;margin-bottom:12px}
+.empty-state .es-title{font-size:1rem;font-weight:700;color:var(--fg2);margin-bottom:4px}
+.empty-state .es-msg{font-size:.85rem}
+
+/* PRODUCT MODAL */
+.pm-image{width:100%;height:220px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:16px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:4rem}
+.pm-image img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius-sm)}
+.pm-price{font-size:1.6rem;font-weight:800;color:var(--accent);margin-bottom:4px}
+.pm-detail-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.pm-detail-item{background:var(--bg3);border-radius:var(--radius-sm);padding:6px 12px;font-size:.78rem;color:var(--fg2)}
+.pm-label{font-size:.8rem;font-weight:700;color:var(--fg2);margin-bottom:4px;margin-top:12px}
+.pm-desc{font-size:.88rem;color:var(--fg);line-height:1.5}
+.pm-seller-box{background:var(--bg3);border-radius:var(--radius-sm);padding:14px;margin-top:16px}
+.pm-seller-name{font-weight:700;color:var(--fg);margin-bottom:4px}
+.pm-phone{font-size:.85rem;color:var(--fg2);font-variant-numeric:tabular-nums;margin-bottom:10px}
+.pm-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.pm-actions .btn{flex:1;min-width:120px}
+
+/* NOTIFICATIONS */
+.notif-header-actions{display:flex;gap:8px;margin-bottom:16px}
+.notif-entry{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:8px;transition:all .2s;cursor:pointer;display:flex;gap:12px;align-items:flex-start}
+.notif-entry.unread{border-left:4px solid var(--accent);background:var(--accent-light)}
+.notif-entry:hover{border-color:var(--accent)}
+.notif-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:4px}
+.notif-entry.read .notif-dot{background:var(--fg3);opacity:.4}
+.notif-content{flex:1;min-width:0}
+.notif-title{font-size:.88rem;font-weight:700;color:var(--fg);margin-bottom:2px}
+.notif-body{font-size:.8rem;color:var(--fg2);line-height:1.4}
+.notif-time{font-size:.7rem;color:var(--fg3);margin-top:4px}
+.notif-type-icon{font-size:1.2rem;flex-shrink:0}
+
+/* ACCOUNT / AUTH / ADMIN */
+.acct-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg3);color:var(--fg);font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;margin-left:6px}
+.acct-btn img{width:100%;height:100%;object-fit:cover}
+.acct-btn.signed-in{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mode-banner{background:var(--warn-light);color:var(--warn);border:1px solid var(--warn);border-radius:var(--radius-sm);padding:10px 12px;font-size:.8rem;margin-bottom:16px;line-height:1.45}
+.auth-tabs{display:flex;background:var(--bg3);border-radius:var(--radius-sm);padding:4px;margin-bottom:16px}
+.auth-tab{flex:1;border:none;background:none;padding:9px;border-radius:6px;font-weight:700;font-size:.85rem;color:var(--fg3)}
+.auth-tab.active{background:var(--bg2);color:var(--accent);box-shadow:var(--shadow)}
+.google-btn{width:100%;justify-content:center;background:var(--bg2);color:var(--fg);border:1.5px solid var(--border)}
+.google-btn:hover{background:var(--bg3)}
+.or-divider{display:flex;align-items:center;gap:10px;color:var(--fg3);font-size:.75rem;margin:16px 0}
+.or-divider::before,.or-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+.profile-head{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+.profile-avatar{width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:1.3rem;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.75rem;word-break:break-all;background:var(--bg3);padding:6px 8px;border-radius:6px;display:block;margin-top:4px}
+.row-item{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:var(--radius-sm);margin-bottom:6px}
+.row-item .ri-thumb{width:40px;height:40px;border-radius:6px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;overflow:hidden;flex-shrink:0}
+.row-item .ri-thumb img{width:100%;height:100%;object-fit:cover}
+.row-item .ri-main{flex:1;min-width:0}
+.row-item .ri-title{font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-item .ri-meta{font-size:.72rem;color:var(--fg3)}
+.row-item .ri-actions{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.admin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.sold-tag{position:absolute;top:8px;left:8px;background:var(--danger);color:#fff;font-size:.7rem;font-weight:800;padding:2px 8px;border-radius:99px;z-index:1}
+.product-card{position:relative}
+</style>
+
+<!-- TOP NAV -->
+<nav class="top-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-brand"><div class="nav-brand-icon" aria-hidden="true">🌱</div>GreenField</div>
+  <div class="nav-tabs" role="tablist">
+    <button class="nav-tab active" role="tab" onclick="showPage('home',this)" aria-label="Home">🏠 Home</button>
+    <button class="nav-tab" role="tab" onclick="showPage('soil',this)" aria-label="Soil Analyzer">🧪 Soil</button>
+    <button class="nav-tab" role="tab" onclick="showPage('weather',this)" aria-label="Weather">🌤 Weather</button>
+    <button class="nav-tab" role="tab" onclick="showPage('market',this)" aria-label="Marketplace">🛒 Market</button>
+    <button class="nav-tab" role="tab" onclick="showPage('notif',this)" aria-label="Alerts" id="notif-nav-tab">🔔 Alerts<span class="nav-badge" id="notif-badge" hidden></span></button>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle dark/light mode" title="Toggle theme">🌙</button>
+  <button class="acct-btn" id="acct-btn" onclick="onAccountClick()" aria-label="Account" title="Account">👤</button>
+</nav>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<!-- HOME PAGE -->
+<main class="page active" id="page-home" role="main" aria-label="Home dashboard">
+  <h1 class="page-title">GreenField</h1>
+  <p class="page-sub">Digital agricultural extension for farmers in Ogun State and beyond</p>
+
+  <div class="stats-grid" id="home-stats">
+    <div class="stat-card"><div class="stat-num" id="stat-analyses">0</div><div class="stat-label">Your Analyses</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-listings">0</div><div class="stat-label">Listings</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-saved">0</div><div class="stat-label">Saved Items</div></div>
+  </div>
+
+  <div class="tip-card" id="home-tip" aria-label="Today's agricultural tip">
+    <div class="tip-label">🌾 Today's Agricultural Tip</div>
+    <div class="tip-text" id="tip-text">Loading tip…</div>
+  </div>
+
+  <div class="home-weather-snap card" id="home-weather-snap" aria-label="Current weather">
+    <div class="section-header"><span class="section-title">📍 Current Weather</span><button class="link-btn" onclick="showPage('weather')">Full forecast →</button></div>
+    <div id="hws-loading" class="skeleton" style="height:60px;border-radius:8px"></div>
+    <div id="hws-content" style="display:none">
+      <div class="hws-inner">
+        <div class="hws-icon" id="hws-icon">☁️</div>
+        <div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span class="hws-temp" id="hws-temp">--°C</span></div>
+          <div class="hws-cond" id="hws-cond">--</div>
+          <div class="hws-loc" id="hws-loc">Abeokuta, Ogun State</div>
+        </div>
+      </div>
+    </div>
+    <div id="hws-error" style="display:none;font-size:.8rem;color:var(--fg3)">Weather unavailable. <button class="link-btn" onclick="fetchHomeWeather()">Retry</button></div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div class="section-header"><span class="section-title">⚡ Quick Actions</span></div>
+    <div class="quick-actions">
+      <button class="qa-btn" onclick="showPage('soil')" aria-label="Analyze soil"><span class="qa-icon">🧪</span>Analyze Soil</button>
+      <button class="qa-btn" onclick="showPage('weather')" aria-label="Check weather"><span class="qa-icon">🌤</span>Check Weather</button>
+      <button class="qa-btn" onclick="showPage('market')" aria-label="Browse marketplace"><span class="qa-icon">🛒</span>Marketplace</button>
+      <button class="qa-btn" onclick="openPostModal()" aria-label="Post a product"><span class="qa-icon">➕</span>Post Product</button>
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div class="section-header"><span class="section-title">🧪 Recent Soil Analyses</span><button class="link-btn" onclick="showPage('soil')">View all →</button></div>
+    <div id="home-recent-soil"><div class="empty-state" style="padding:24px"><div class="es-icon">🧪</div><div class="es-msg">No analyses yet. <button class="link-btn" onclick="showPage('soil')">Analyze your first soil →</button></div></div></div>
+  </div>
+
+  <div>
+    <div class="section-header"><span class="section-title">🛒 Recent Listings</span><button class="link-btn" onclick="showPage('market')">See all →</button></div>
+    <div id="home-recent-market"><div style="font-size:.85rem;color:var(--fg3)">Loading…</div></div>
+  </div>
+</main>
+
+<!-- SOIL PAGE -->
+<main class="page" id="page-soil" aria-label="Soil Analyzer">
+  <h1 class="page-title">Soil Analyzer</h1>
+  <p class="page-sub">Select soil characteristics to get estimated nutrient profile and crop recommendations</p>
+
+  <div id="soil-form-section">
+    <div class="card">
+      <div class="card-title"><span class="icon">🎨</span>Soil Color</div>
+      <div class="option-grid" id="soil-color-grid" role="group" aria-label="Select soil color"></div>
+      <div class="form-error" id="err-color">Please select a soil color</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🤌</span>Soil Texture</div>
+      <div class="option-grid" id="soil-texture-grid" role="group" aria-label="Select soil texture"></div>
+      <div class="form-error" id="err-texture">Please select a soil texture</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📸</span>Soil Photo <span style="font-size:.75rem;font-weight:400;color:var(--fg3)">(optional)</span></div>
+      <div class="soil-photo-area" id="soil-photo-area" onclick="triggerPhotoUpload()" role="button" aria-label="Upload soil photo" tabindex="0">
+        <div id="soil-photo-placeholder"><div style="font-size:2rem;margin-bottom:8px">📷</div><div style="font-size:.85rem;color:var(--fg3)">Click to upload soil photo</div><div style="font-size:.75rem;color:var(--fg3);margin-top:4px">JPG, PNG, WebP · Max 5MB</div></div>
+        <img id="soil-photo-preview" class="soil-photo-preview" src="" alt="Soil photo preview" style="display:none">
+      </div>
+      <div class="soil-photo-controls" id="soil-photo-controls" style="display:none">
+        <button class="btn btn-secondary btn-sm" onclick="triggerPhotoUpload()">↩ Replace</button>
+        <button class="btn btn-danger btn-sm" onclick="removePhoto()">✕ Remove</button>
+        <span id="photo-filename" style="font-size:.75rem;color:var(--fg3);align-self:center"></span>
+      </div>
+      <input type="file" id="soil-photo-input" accept="image/*" style="display:none" aria-label="Upload soil photo">
+      <div class="form-error" id="err-photo"></div>
+      <div class="form-hint" id="soil-photo-note" style="display:none">📝 Photo received. Visual confirmation can be added when image analysis is connected.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📝</span>Field Notes <span style="font-size:.75rem;font-weight:400;color:var(--fg3)">(optional)</span></div>
+      <textarea id="soil-notes" class="form-input" rows="3" placeholder="E.g. Location: Odeda, plot 3. Previous crop: maize. Last fertilized: March 2024." aria-label="Field notes"></textarea>
+      <div class="form-hint">Notes are saved with the analysis and can help with future recommendations</div>
+    </div>
+
+    <button class="btn btn-primary btn-full" id="soil-analyze-btn" onclick="analyzeSoil()" style="margin-top:4px;padding:14px">🧪 Analyze Soil</button>
+    <div id="soil-analyzing" style="display:none;text-align:center;padding:20px;color:var(--fg3)">
+      <div style="font-size:2rem;animation:spin 1s linear infinite;display:inline-block">⚙️</div>
+      <div style="margin-top:8px;font-weight:600">Analyzing soil characteristics…</div>
+    </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+  </div>
+
+  <div id="soil-result" style="display:none;margin-top:16px">
+    <div class="card" style="border-top:4px solid var(--accent)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="card-title" style="margin:0"><span class="icon">📊</span>Soil Analysis Results</div>
+        <button class="btn btn-secondary btn-sm" onclick="resetSoilForm()" id="btn-reanalyze">🔄 Analyze Again</button>
+      </div>
+
+      <div class="estimate-disclaimer">ℹ️ <strong>Estimated values</strong> — These values are estimated from the selected soil characteristics and are not a substitute for laboratory soil testing. Results are for guidance only.</div>
+
+      <div class="soil-result-section">
+        <h3>🌍 Soil Profile</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <span class="badge badge-info" id="result-color-badge">Color</span>
+          <span class="badge badge-grey" id="result-texture-badge">Texture</span>
+          <span class="badge" id="result-rating-badge">Rating</span>
+        </div>
+        <div id="result-notes-display" style="display:none;background:var(--bg3);border-radius:var(--radius-sm);padding:10px 12px;font-size:.82rem;color:var(--fg2);margin-bottom:8px;border-left:3px solid var(--accent)"></div>
+      </div>
+
+      <div class="soil-result-section">
+        <h3>🧬 Nutrient Summary</h3>
+        <div id="result-levels"></div>
+        <div class="nutrient-grid" id="result-nutrients"></div>
+      </div>
+
+      <div class="soil-result-section">
+        <h3>🌾 Recommended Crops</h3>
+        <div id="result-crops" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+
+      <div class="soil-result-section">
+        <h3>🌿 Fertilizer Guidance</h3>
+        <div id="result-fert" style="font-size:.88rem;color:var(--fg);line-height:1.5"></div>
+      </div>
+
+      <div class="soil-result-section">
+        <h3>⚙️ Soil Management</h3>
+        <div id="result-mgmt"></div>
+      </div>
+
+      <div class="caution-box">⚠️ <strong>Important:</strong> Confirm nutrient levels with laboratory soil testing before applying major fertilizer or lime quantities. Consult your local extension officer for site-specific advice.</div>
+
+      <button class="btn btn-primary btn-full" onclick="saveCurrentAnalysis()" style="margin-top:16px" id="btn-save-analysis">💾 Save Analysis</button>
+    </div>
+  </div>
+
+  <div style="margin-top:20px">
+    <div class="section-header"><span class="section-title">📂 Recent Analyses</span><button class="link-btn" onclick="renderSoilHistory()">Refresh</button></div>
+    <div id="soil-history-list"></div>
+  </div>
+</main>
+
+<!-- WEATHER PAGE -->
+<main class="page" id="page-weather" aria-label="Agricultural Weather">
+  <h1 class="page-title">Agricultural Weather</h1>
+  <p class="page-sub">Live 7-day forecast with agricultural decision support</p>
+
+  <div class="weather-location-bar">
+    <select class="form-input" id="weather-location-select" onchange="onWeatherLocationChange()" aria-label="Select location">
+      <option value="Abeokuta">📍 Abeokuta (FUNAAB)</option>
+      <option value="Lagos">📍 Lagos</option>
+      <option value="Ibadan">📍 Ibadan</option>
+      <option value="Ijebu-Ode">📍 Ijebu-Ode</option>
+      <option value="Sagamu">📍 Sagamu</option>
+    </select>
+    <button class="weather-refresh-btn" id="weather-refresh-btn" onclick="fetchWeather()" aria-label="Refresh weather">↻ Refresh</button>
+  </div>
+  <div class="weather-updated" id="weather-updated"></div>
+
+  <div class="weather-skeleton" id="weather-skeleton">
+    <div class="skel-box skeleton"></div>
+    <div class="skeleton" style="height:40px;border-radius:8px;margin-bottom:8px"></div>
+    <div style="display:flex;gap:8px;overflow:hidden">
+      <div class="skeleton" style="min-width:88px;height:130px;border-radius:8px;flex-shrink:0"></div>
+      <div class="skeleton" style="min-width:88px;height:130px;border-radius:8px;flex-shrink:0"></div>
+      <div class="skeleton" style="min-width:88px;height:130px;border-radius:8px;flex-shrink:0"></div>
+      <div class="skeleton" style="min-width:88px;height:130px;border-radius:8px;flex-shrink:0"></div>
+    </div>
+  </div>
+
+  <div class="weather-error" id="weather-error" role="alert">
+    <div style="font-size:2rem;margin-bottom:8px">⚠️</div>
+    <div style="font-weight:700;margin-bottom:4px">Could not load weather</div>
+    <div style="font-size:.85rem;color:var(--fg2);margin-bottom:12px">Check your internet connection and try again</div>
+    <button class="btn btn-primary" onclick="fetchWeather()">↻ Try Again</button>
+  </div>
+
+  <div class="weather-content" id="weather-content">
+    <div class="weather-current-card" id="weather-current-card" aria-label="Current conditions">
+      <div class="wcc-top">
+        <div class="wcc-icon" id="wcc-icon">☁️</div>
+        <div>
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span class="wcc-temp" id="wcc-temp">--°C</span>
+          </div>
+          <div class="wcc-cond" id="wcc-cond">--</div>
+          <div class="wcc-loc" id="wcc-loc">--</div>
+        </div>
+      </div>
+      <div class="wcc-stats">
+        <div class="wcc-stat"><div class="wcc-stat-val" id="wcc-humidity">--%</div><div class="wcc-stat-label">Humidity</div></div>
+        <div class="wcc-stat"><div class="wcc-stat-val" id="wcc-wind">-- km/h</div><div class="wcc-stat-label">Wind</div></div>
+        <div class="wcc-stat"><div class="wcc-stat-val" id="wcc-rain">-- mm</div><div class="wcc-stat-label">Today's Rain</div></div>
+      </div>
+    </div>
+
+    <div class="forecast-label">7-Day Forecast</div>
+    <div class="forecast-scroll" id="forecast-row" role="list" aria-label="7-day weather forecast"></div>
+
+    <div class="agri-advice card" style="margin-top:16px">
+      <div class="card-title"><span class="icon">🌾</span>Agricultural Intelligence</div>
+      <div class="agri-advice-header">Recommendations generated from current weather conditions — not AI analysis</div>
+      <div id="agri-advice-content"></div>
+    </div>
+  </div>
+</main>
+
+<!-- MARKETPLACE PAGE -->
+<main class="page" id="page-market" aria-label="Farm Marketplace">
+  <h1 class="page-title">Farm Marketplace</h1>
+  <p class="page-sub">Buy and sell fresh produce, inputs, and farm products</p>
+
+  <div class="market-search-bar">
+    <input type="text" class="form-input" id="market-search" placeholder="Search products, sellers, locations…" oninput="renderProducts()" aria-label="Search marketplace">
+    <button class="btn btn-secondary btn-sm" onclick="clearSearch()" aria-label="Clear search">✕</button>
+    <button class="btn btn-primary btn-sm" onclick="openPostModal()" aria-label="Post a listing">+ Post</button>
+  </div>
+
+  <div class="filter-bar" id="filter-bar" role="group" aria-label="Filter products">
+    <button class="filter-chip active" onclick="setCategory('All',this)" data-cat="All">All</button>
+    <button class="filter-chip" onclick="setCategory('Vegetables',this)" data-cat="Vegetables">🥬 Vegetables</button>
+    <button class="filter-chip" onclick="setCategory('Grains',this)" data-cat="Grains">🌾 Grains</button>
+    <button class="filter-chip" onclick="setCategory('Fruits',this)" data-cat="Fruits">🍊 Fruits</button>
+    <button class="filter-chip" onclick="setCategory('Livestock',this)" data-cat="Livestock">🐓 Livestock</button>
+    <button class="filter-chip" onclick="setCategory('Inputs',this)" data-cat="Inputs">🧪 Inputs</button>
+    <button class="filter-chip" onclick="setCategory('Saved',this)" data-cat="Saved">❤️ Saved</button>
+    <button class="filter-chip" onclick="toggleMoreFilters(this)">⚙️ Filters</button>
+  </div>
+
+  <div class="filter-expand" id="filter-expand">
+    <select class="form-input" id="filter-location" onchange="renderProducts()" aria-label="Filter by location" style="flex:1;min-width:140px">
+      <option value="">📍 All Locations</option>
+      <option value="Abeokuta">Abeokuta</option>
+      <option value="Lagos">Lagos</option>
+      <option value="Ibadan">Ibadan</option>
+      <option value="Ijebu-Ode">Ijebu-Ode</option>
+      <option value="Sagamu">Sagamu</option>
+      <option value="Ogun">Ogun State</option>
+    </select>
+    <select class="form-input" id="filter-price" onchange="renderProducts()" aria-label="Filter by price" style="flex:1;min-width:140px">
+      <option value="">💰 All Prices</option>
+      <option value="0-5000">Under ₦5,000</option>
+      <option value="5000-20000">₦5,000 – ₦20,000</option>
+      <option value="20000-100000">₦20,000 – ₦100,000</option>
+      <option value="100000+">Over ₦100,000</option>
+    </select>
+    <select class="form-input" id="filter-avail" onchange="renderProducts()" aria-label="Filter by availability" style="flex:1;min-width:140px">
+      <option value="">📦 All Availability</option>
+      <option value="Available">Available</option>
+      <option value="Limited">Limited Stock</option>
+    </select>
+  </div>
+
+  <div class="market-result-count" id="market-result-count"></div>
+  <div class="market-grid" id="market-grid"></div>
+</main>
+
+<!-- NOTIFICATIONS PAGE -->
+<main class="page" id="page-notif" aria-label="Alerts and notifications">
+  <h1 class="page-title">Alerts</h1>
+  <p class="page-sub">Agricultural reminders and system notifications</p>
+  <div class="notif-header-actions">
+    <button class="btn btn-secondary btn-sm" onclick="markAllRead()">✓ Mark all read</button>
+    <button class="btn btn-secondary btn-sm" onclick="clearReadNotifs()">🗑 Clear read</button>
+  </div>
+  <div id="notif-list"></div>
+</main>
+
+
+<!-- PROFILE PAGE -->
+<main class="page" id="page-profile" aria-label="Your account">
+  <h1 class="page-title">Account</h1>
+  <p class="page-sub">Your profile, listings and settings</p>
+  <div id="profile-content"></div>
+</main>
+
+<!-- ADMIN PAGE -->
+<main class="page" id="page-admin" aria-label="Admin panel">
+  <h1 class="page-title">Admin Panel</h1>
+  <p class="page-sub">Moderate listings and send announcements to all users</p>
+  <div class="admin-stats">
+    <div class="stat-card"><div class="stat-num" id="adm-stat-listings">0</div><div class="stat-label">Listings</div></div>
+    <div class="stat-card"><div class="stat-num" id="adm-stat-users">0</div><div class="stat-label">Users</div></div>
+    <div class="stat-card"><div class="stat-num" id="adm-stat-ann">0</div><div class="stat-label">Announcements</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">📢</span>New Announcement</div>
+    <div class="form-group"><label class="form-label" for="ann-title">Title *</label><input class="form-input" id="ann-title" maxlength="80" placeholder="E.g. Fertilizer now available at the ADP office"></div>
+    <div class="form-group"><label class="form-label" for="ann-body">Message *</label><textarea class="form-input" id="ann-body" rows="3" maxlength="500" placeholder="What should every user know?"></textarea></div>
+    <div class="form-group"><label class="form-label" for="ann-type">Type</label>
+      <select class="form-input" id="ann-type"><option value="system">📢 General</option><option value="weather">🌧 Weather</option><option value="soil">🧪 Soil</option><option value="market">🛒 Market</option></select></div>
+    <button class="btn btn-primary btn-full" id="ann-submit" onclick="postAnnouncement()">📢 Send to all users</button>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span>Announcements</div>
+    <div id="admin-ann-list"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">🛒</span>All Listings</div>
+    <input class="form-input" id="admin-listing-search" placeholder="Search listings or sellers…" oninput="renderAdmin()" style="margin-bottom:10px">
+    <div id="admin-listing-list"></div>
+  </div>
+</main>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bnav" aria-label="Mobile navigation">
+  <button class="bnav-btn active" onclick="showPage('home',this)" aria-label="Home"><span class="bnav-icon">🏠</span>Home</button>
+  <button class="bnav-btn" onclick="showPage('soil',this)" aria-label="Soil Analyzer"><span class="bnav-icon">🧪</span>Soil</button>
+  <button class="bnav-btn" onclick="showPage('weather',this)" aria-label="Weather"><span class="bnav-icon">🌤</span>Weather</button>
+  <button class="bnav-btn" onclick="showPage('market',this)" aria-label="Marketplace"><span class="bnav-icon">🛒</span>Market</button>
+  <button class="bnav-btn" onclick="showPage('notif',this)" aria-label="Alerts" id="notif-bnav-btn"><span class="bnav-icon">🔔</span>Alerts<span class="bnav-badge" id="notif-bnav-badge" hidden></span></button>
+</nav>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal-overlay" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="pm-title">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="pm-title">Product Details</span>
+      <button class="modal-close" onclick="closeModal('product-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="pm-image" id="pm-image-container" aria-label="Product image"></div>
+      <div class="pm-price" id="pm-price"></div>
+      <div id="pm-avail-badge" style="margin-bottom:8px"></div>
+      <div class="pm-detail-row" id="pm-details"></div>
+      <div class="pm-label">Description</div>
+      <div class="pm-desc" id="pm-desc"></div>
+      <div class="pm-seller-box">
+        <div class="pm-label" style="margin-top:0">Seller Information</div>
+        <div class="pm-seller-name" id="pm-seller"></div>
+        <div class="pm-phone" id="pm-phone"></div>
+        <div class="pm-actions">
+          <button class="btn btn-primary btn-sm" id="pm-whatsapp-btn" onclick="contactWhatsApp()" aria-label="Contact seller via WhatsApp">💬 WhatsApp</button>
+          <button class="btn btn-secondary btn-sm" onclick="copyPhone()" aria-label="Copy phone number">📋 Copy Phone</button>
+          <button class="btn btn-secondary btn-sm" id="pm-fav-btn" onclick="toggleCurrentFav()" aria-label="Save to favorites">🤍 Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- POST LISTING MODAL -->
+<div class="modal-overlay" id="post-modal" role="dialog" aria-modal="true" aria-labelledby="post-modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="post-modal-title">Post a Listing</span>
+      <button class="modal-close" onclick="closeModal('post-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="post-image-area">Product Image</label>
+        <div class="soil-photo-area" id="post-image-area" onclick="triggerPostImageUpload()" role="button" tabindex="0" aria-label="Upload product image">
+          <div id="post-image-placeholder"><div style="font-size:2rem;margin-bottom:6px">🖼️</div><div style="font-size:.82rem;color:var(--fg3)">Click to add product photo</div></div>
+          <img id="post-image-preview" class="soil-photo-preview" src="" alt="Product preview" style="display:none">
+        </div>
+        <div id="post-image-controls" style="display:none;margin-top:8px;display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" onclick="triggerPostImageUpload()">↩ Replace</button>
+          <button class="btn btn-danger btn-sm" onclick="removePostImage()">✕ Remove</button>
+        </div>
+        <input type="file" id="post-image-input" accept="image/*" style="display:none" aria-label="Upload product image">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="post-name">Product Name *</label>
+        <input type="text" class="form-input" id="post-name" placeholder="E.g. Fresh Tomatoes" aria-required="true">
+        <div class="form-error" id="err-post-name">Product name is required</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label class="form-label" for="post-price">Price (₦) *</label>
+          <input type="number" class="form-input" id="post-price" placeholder="5000" min="0" aria-required="true">
+          <div class="form-error" id="err-post-price">Enter a valid price</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="post-category">Category *</label>
+          <select class="form-input" id="post-category" aria-required="true">
+            <option value="">Select…</option>
+            <option>Vegetables</option><option>Grains</option><option>Fruits</option>
+            <option>Livestock</option><option>Inputs</option><option>Other</option>
+          </select>
+          <div class="form-error" id="err-post-cat">Select a category</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px">
+        <div class="form-group">
+          <label class="form-label" for="post-qty">Quantity *</label>
+          <input type="number" class="form-input" id="post-qty" placeholder="50" min="0.1" step="0.1" aria-required="true">
+          <div class="form-error" id="err-post-qty">Enter quantity</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="post-unit">Unit</label>
+          <select class="form-input" id="post-unit">
+            <option>kg</option><option>bags</option><option>crates</option><option>bundles</option>
+            <option>litres</option><option>dozens</option><option>units</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="post-location">Location *</label>
+        <input type="text" class="form-input" id="post-location" placeholder="E.g. Abeokuta, Ogun State" aria-required="true">
+        <div class="form-error" id="err-post-loc">Enter your location</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="post-seller">Your Name *</label>
+        <input type="text" class="form-input" id="post-seller" placeholder="E.g. Ade Farms" aria-required="true">
+        <div class="form-error" id="err-post-seller">Seller name is required</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="post-phone">Phone / WhatsApp *</label>
+        <input type="tel" class="form-input" id="post-phone" placeholder="08012345678" aria-required="true">
+        <div class="form-error" id="err-post-phone">Enter a phone number</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="post-avail">Availability</label>
+        <select class="form-input" id="post-avail">
+          <option>Available</option><option>Limited</option><option>Pre-order</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="post-desc">Description</label>
+        <textarea class="form-input" id="post-desc" rows="3" placeholder="Describe your product — freshness, harvest date, farming method…"></textarea>
+      </div>
+      <button class="btn btn-primary btn-full" id="post-submit-btn" onclick="submitListing()" style="margin-top:4px">📦 Post Listing</button>
+      <div id="post-status" style="display:none;text-align:center;padding:12px;font-size:.88rem;color:var(--fg3)"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <span class="modal-title" id="auth-modal-title">Sign in to GreenField</span>
+      <button class="modal-close" onclick="closeModal('auth-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="auth-reason" class="form-hint" style="margin:0 0 12px;display:none"></div>
+      <button class="btn google-btn" onclick="signInGoogle()"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Continue with Google</button>
+      <div class="or-divider">or use email</div>
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" id="auth-tab-in" onclick="setAuthMode('in')">Sign in</button>
+        <button class="auth-tab" id="auth-tab-up" onclick="setAuthMode('up')">Create account</button>
+      </div>
+      <div class="form-group" id="auth-name-group" style="display:none"><label class="form-label" for="auth-name">Full name / farm name *</label><input class="form-input" id="auth-name" autocomplete="name" placeholder="E.g. Ade Farms"></div>
+      <div class="form-group"><label class="form-label" for="auth-email">Email *</label><input class="form-input" id="auth-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+      <div class="form-group"><label class="form-label" for="auth-pass">Password *</label><input class="form-input" id="auth-pass" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div>
+      <div class="form-error" id="auth-error"></div>
+      <button class="btn btn-primary btn-full" id="auth-submit" onclick="submitEmailAuth()" style="margin-top:4px">Sign in</button>
+      <div style="text-align:center;margin-top:12px"><button class="link-btn" id="auth-forgot" onclick="forgotPassword()">Forgot password?</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- SOIL HISTORY MODAL -->
+<div class="modal-overlay" id="history-modal" role="dialog" aria-modal="true" aria-labelledby="history-modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="history-modal-title">Saved Analysis</span>
+      <button class="modal-close" onclick="closeModal('history-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body" id="history-modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG & CONSTANTS
+// ============================================================
+var LOCATIONS = {
+  'Abeokuta': {lat:7.1475,lng:3.3619,label:'Abeokuta, Ogun State'},
+  'Lagos':    {lat:6.5244,lng:3.3792,label:'Lagos'},
+  'Ibadan':   {lat:7.3775,lng:3.9470,label:'Ibadan, Oyo State'},
+  'Ijebu-Ode':{lat:6.8182,lng:3.9177,label:'Ijebu-Ode, Ogun State'},
+  'Sagamu':   {lat:6.8388,lng:3.6512,label:'Sagamu, Ogun State'}
+};
+
+var WMO = {
+  0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',
+  45:'Fog',48:'Icy fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',
+  61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',
+  77:'Snow grains',80:'Light showers',81:'Showers',82:'Heavy showers',
+  85:'Snow showers',86:'Heavy snow showers',95:'Thunderstorm',96:'Thunderstorm+hail',99:'Thunderstorm+heavy hail'
+};
+var WMO_ICON = {
+  0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',
+  51:'🌦',53:'🌧',55:'🌧',61:'🌦',63:'🌧',65:'⛈',
+  71:'🌨',73:'❄️',75:'❄️',77:'🌨',80:'🌦',81:'🌧',82:'⛈',
+  85:'🌨',86:'❄️',95:'⛈',96:'⛈',99:'⛈'
+};
+
+var SOIL_COLORS = [
+  {label:'Dark Brown',hex:'#4a2c0a'},
+  {label:'Red/Clay',hex:'#8b3a1a'},
+  {label:'Light Brown',hex:'#a07850'},
+  {label:'Grey',hex:'#8a8a8a'},
+  {label:'Black/Dark',hex:'#1c1c1c'},
+  {label:'Yellowish',hex:'#c8a840'}
+];
+var SOIL_TEXTURES = ['Clay','Loam','Sandy','Silty'];
+
+// Deterministic profiles: color|texture → fixed nutrient values
+var SOIL_PROFILES = {
+  'Dark Brown|Clay':  {n:175,p:42,k:195,ph:6.5,oc:3.8,rating:'Good',ratingClass:'good'},
+  'Dark Brown|Loam':  {n:162,p:38,k:182,ph:6.4,oc:3.4,rating:'Good',ratingClass:'good'},
+  'Dark Brown|Sandy': {n:128,p:26,k:148,ph:6.1,oc:2.8,rating:'Moderate',ratingClass:'moderate'},
+  'Dark Brown|Silty': {n:155,p:35,k:172,ph:6.3,oc:3.1,rating:'Good',ratingClass:'good'},
+  'Red/Clay|Clay':    {n:85,p:16,k:155,ph:5.5,oc:1.8,rating:'Moderate',ratingClass:'moderate'},
+  'Red/Clay|Loam':    {n:92,p:20,k:162,ph:5.7,oc:2.0,rating:'Moderate',ratingClass:'moderate'},
+  'Red/Clay|Sandy':   {n:60,p:10,k:110,ph:5.2,oc:1.2,rating:'Low',ratingClass:'low'},
+  'Red/Clay|Silty':   {n:78,p:15,k:140,ph:5.5,oc:1.6,rating:'Moderate',ratingClass:'moderate'},
+  'Light Brown|Clay': {n:110,p:24,k:168,ph:6.0,oc:2.4,rating:'Moderate',ratingClass:'moderate'},
+  'Light Brown|Loam': {n:120,p:28,k:172,ph:6.2,oc:2.6,rating:'Moderate',ratingClass:'moderate'},
+  'Light Brown|Sandy':{n:75,p:14,k:120,ph:5.8,oc:1.4,rating:'Low',ratingClass:'low'},
+  'Light Brown|Silty':{n:105,p:22,k:158,ph:6.0,oc:2.2,rating:'Moderate',ratingClass:'moderate'},
+  'Grey|Clay':        {n:65,p:12,k:105,ph:7.2,oc:1.5,rating:'Low',ratingClass:'low'},
+  'Grey|Loam':        {n:72,p:15,k:115,ph:7.0,oc:1.7,rating:'Low',ratingClass:'low'},
+  'Grey|Sandy':       {n:45,p:8, k:85, ph:7.4,oc:0.9,rating:'Poor',ratingClass:'danger'},
+  'Grey|Silty':       {n:60,p:12,k:100,ph:7.1,oc:1.3,rating:'Low',ratingClass:'low'},
+  'Black/Dark|Clay':  {n:200,p:50,k:220,ph:6.6,oc:4.5,rating:'Excellent',ratingClass:'excellent'},
+  'Black/Dark|Loam':  {n:190,p:46,k:208,ph:6.5,oc:4.2,rating:'Excellent',ratingClass:'excellent'},
+  'Black/Dark|Sandy': {n:148,p:32,k:168,ph:6.2,oc:3.2,rating:'Good',ratingClass:'good'},
+  'Black/Dark|Silty': {n:180,p:42,k:198,ph:6.4,oc:3.9,rating:'Excellent',ratingClass:'excellent'},
+  'Yellowish|Clay':   {n:55,p:10,k:95, ph:5.0,oc:1.0,rating:'Poor',ratingClass:'danger'},
+  'Yellowish|Loam':   {n:65,p:12,k:108,ph:5.2,oc:1.2,rating:'Low',ratingClass:'low'},
+  'Yellowish|Sandy':  {n:40,p:7, k:75, ph:4.8,oc:0.7,rating:'Poor',ratingClass:'danger'},
+  'Yellowish|Silty':  {n:52,p:10,k:90, ph:5.0,oc:0.9,rating:'Poor',ratingClass:'danger'}
+};
+
+var CROP_RECS = {
+  'Dark Brown|Clay':  {crops:['Maize','Cassava','Yam','Pepper','Okra'],fert:'Apply NPK 15:15:15 at 200kg/ha. Top-dress with urea (50kg/ha) 4 weeks after planting.',mgmt:['Add organic compost to improve drainage','Avoid waterlogging during rainy season','Practice crop rotation with legumes']},
+  'Dark Brown|Loam':  {crops:['Maize','Tomato','Pepper','Cowpea','Soybean'],fert:'Apply NPK 20:10:10 at 150kg/ha at planting. Top-dress with urea at flowering.',mgmt:['Mulch to conserve moisture','Plant cover crops in fallow periods','Add phosphorus if fruits are small']},
+  'Dark Brown|Sandy': {crops:['Groundnut','Sweet Potato','Cassava','Melon'],fert:'Apply organic manure 5t/ha. Supplement with NPK 15:15:15 at 100kg/ha.',mgmt:['Improve water retention with organic matter','Irrigate more frequently','Avoid heavy machinery compaction']},
+  'Dark Brown|Silty': {crops:['Rice','Maize','Vegetables','Sorghum'],fert:'Apply NPK 20:10:10 at 180kg/ha. Add potassium supplement if needed.',mgmt:['Avoid compaction when wet','Ensure good drainage channels','Test pH annually']},
+  'Red/Clay|Clay':    {crops:['Cassava','Sorghum','Cowpea','Groundnut'],fert:'Lime to raise pH (target 6.0). Apply NPK 15:15:15 at 150kg/ha after liming.',mgmt:['Apply lime 2 tonnes/ha if pH below 5.5','Deep tillage to break hardpan','Plant cassava or tolerant crops first']},
+  'Red/Clay|Loam':    {crops:['Cassava','Maize','Cowpea','Sorghum'],fert:'Apply NPK 15:15:15 at 120kg/ha. Add organic matter to improve structure.',mgmt:['Lime application recommended','Organic compost 3t/ha','Intercrop with legumes to fix nitrogen']},
+  'Red/Clay|Sandy':   {crops:['Groundnut','Cassava','Sweet Potato'],fert:'Apply organic manure 8t/ha. Lime if pH below 5.5. Supplement with NPK 15:15:15 at 80kg/ha.',mgmt:['Major lime application needed','Add clay or compost to improve structure','Grow legume cover crops']},
+  'Red/Clay|Silty':   {crops:['Cassava','Cowpea','Sorghum','Maize'],fert:'Apply lime then NPK 15:15:15 at 130kg/ha.',mgmt:['pH correction is priority','Good drainage essential','Intercrop with cowpea']},
+  'Light Brown|Clay': {crops:['Maize','Sorghum','Cowpea','Yam'],fert:'Apply NPK 15:15:15 at 150kg/ha. Supplement with phosphorus (SSP 100kg/ha).',mgmt:['Organic matter addition beneficial','Moderate irrigation','Test pH every 2 years']},
+  'Light Brown|Loam': {crops:['Maize','Tomato','Pepper','Cowpea'],fert:'Apply NPK 15:15:15 at 150kg/ha. Top-dress with urea at 6 weeks.',mgmt:['Good all-purpose soil — maintain organic matter','Rotate crops annually','Monitor for pH drift']},
+  'Light Brown|Sandy':{crops:['Groundnut','Cassava','Sweet Potato','Melon'],fert:'Apply organic manure 6t/ha. Supplement with NPK at 80kg/ha.',mgmt:['Add organic matter to improve water holding','Frequent irrigation needed','Avoid over-fertilizing']},
+  'Light Brown|Silty':{crops:['Maize','Vegetables','Cowpea','Sorghum'],fert:'Apply NPK 20:10:10 at 140kg/ha.',mgmt:['Good drainage prevents waterlogging','Minimal tillage preferred','Mulching beneficial']},
+  'Grey|Clay':        {crops:['Rice','Taro','Water Spinach'],fert:'Apply NPK 15:15:15 at 100kg/ha. Test pH — may need lime.',mgmt:['Check for waterlogging tendency','May need drainage channels','Test for sodium if sodium-affected']},
+  'Grey|Loam':        {crops:['Sorghum','Cowpea','Sweet Potato'],fert:'Apply organic manure 4t/ha. NPK 15:15:15 at 100kg/ha.',mgmt:['Improve organic matter content','Test for salt or sodium issues','Lime if pH above 7.5']},
+  'Grey|Sandy':       {crops:['Groundnut','Cassava'],fert:'Heavy organic amendment needed (8t/ha compost). Minimal chemical fertilizer until improved.',mgmt:['Major soil amendment required','Consider cover cropping first','Grow soil-improving legumes for 1-2 seasons']},
+  'Grey|Silty':       {crops:['Rice','Cowpea','Sorghum'],fert:'Apply NPK 15:15:15 at 100kg/ha after drainage improvement.',mgmt:['Drainage is the priority','Add organic matter','Test for subsoil problems']},
+  'Black/Dark|Clay':  {crops:['Maize','Tomato','Pepper','Okra','Yam','Cowpea'],fert:'Apply NPK 20:10:10 at 180kg/ha. Minimal lime needed. Top-dress with urea.',mgmt:['Excellent soil — maintain organic matter','Avoid compaction','Practice rotation to prevent disease buildup']},
+  'Black/Dark|Loam':  {crops:['Maize','Tomato','Pepper','Soybean','Cowpea'],fert:'Apply NPK 20:10:10 at 180kg/ha. This soil responds well to fertilization.',mgmt:['Ideal soil — protect from erosion','Add compost annually','Good candidate for intensive vegetable production']},
+  'Black/Dark|Sandy': {crops:['Maize','Groundnut','Sweet Potato','Cowpea'],fert:'Apply organic manure 4t/ha plus NPK 15:15:15 at 120kg/ha.',mgmt:['Add organic matter to maintain fertility','More frequent irrigation','Mulching essential']},
+  'Black/Dark|Silty': {crops:['Maize','Rice','Vegetables','Cowpea','Tomato'],fert:'Apply NPK 20:10:10 at 180kg/ha. Excellent response to fertilization expected.',mgmt:['Maintain drainage','Organic matter addition annually','Excellent for high-value crops']},
+  'Yellowish|Clay':   {crops:['Cassava','Groundnut'],fert:'Lime heavily (3t/ha) before any cropping. NPK after pH reaches 5.5+.',mgmt:['Acidic — lime application is critical','Grow acid-tolerant crops first','May need micronutrient supplement (Zn, B)']},
+  'Yellowish|Loam':   {crops:['Cassava','Groundnut','Sweet Potato'],fert:'Lime 2t/ha to raise pH. Apply NPK 15:15:15 at 80kg/ha after liming.',mgmt:['pH correction needed before cropping','Add organic matter to improve structure','Plant legumes to improve fertility']},
+  'Yellowish|Sandy':  {crops:['Cassava'],fert:'Major remediation: 4t/ha lime + 8t/ha compost. Minimal production potential until improved.',mgmt:['This soil needs major remediation','Grow green manure crops for 2 seasons','Long-term organic matter buildup needed']},
+  'Yellowish|Silty':  {crops:['Cassava','Groundnut'],fert:'Apply lime 2.5t/ha. Add organic manure 5t/ha. NPK at 80kg/ha after pH correction.',mgmt:['Acidic correction is essential','Organic matter critical','Test micronutrients after pH correction']}
+};
+
+var SOIL_COLOR_COLORS = {
+  'Dark Brown':'#4a2c0a','Red/Clay':'#8b3a1a','Light Brown':'#a07850',
+  'Grey':'#8a8a8a','Black/Dark':'#1c1c1c','Yellowish':'#c8a840'
+};
+
+var AGR_TIPS = [
+  'Apply fertilizer in the early morning or late afternoon to reduce evaporation losses.',
+  'Rotate crops each season to naturally replenish soil nutrients and break pest cycles.',
+  'Intercropping maize with cowpea can fix up to 100kg N/ha, reducing fertilizer costs.',
+  'Soil pH directly affects nutrient availability — always test before liming or acidifying.',
+  'Mulching with crop residues can reduce soil moisture loss by 30–40% in dry periods.',
+  'Plant yam setts on well-formed mounds or ridges so tubers have loose soil to bulk in.',
+  'Water your crops early in the morning to minimize evaporation and fungal disease risk.',
+  'Collect rainwater during the wet season for irrigation during dry spells.',
+  'A soil pH of 6.0–6.8 is ideal for most vegetables grown in Southwest Nigeria.',
+  'Contact your local extension officer for soil testing and site-specific farm advice.',
+  'Organic matter above 3% significantly improves water retention in sandy Ogun State soils.',
+  'Planting legumes before your main crop can add up to 60kg N/ha naturally.'
+];
+
+var NOW_TS = Date.now();
+var SAMPLE_NOTIFS = [
+  {id:'n_welcome',type:'system',icon:'🌱',title:'Welcome to GreenField',body:'Analyse your soil, check the weather advice and trade farm produce in the marketplace.',timestamp:NOW_TS}
+];
+
+var SAMPLE_PRODUCTS = [
+  {id:'sp1',name:'Fresh Tomatoes',price:8000,category:'Vegetables',qty:50,unit:'kg',seller:'Bola Farms',phone:'08091234567',location:'Abeokuta',desc:'Freshly harvested Roma tomatoes from FUNAAB Teaching Farm vicinity. Grade A, no pesticides 72h before harvest.',dateAdded:NOW_TS - 3600000,availability:'Available',icon:'🍅'},
+  {id:'sp2',name:'Yellow Maize (Dry)',price:35000,category:'Grains',qty:5,unit:'bags',seller:'Adeleke Agro',phone:'08033456789',location:'Sagamu',desc:'Dried yellow maize. 100kg bags. Moisture content <14%. Good for poultry feed or milling.',dateAdded:NOW_TS - 7200000,availability:'Available',icon:'🌽'},
+  {id:'sp3',name:'Live Broiler Chickens',price:4500,category:'Livestock',qty:80,unit:'units',seller:'Musa Poultry Farm',phone:'07055678901',location:'Ibadan',desc:'8-week broilers averaging 2.5kg. Vaccinated. Ready for immediate slaughter or purchase.',dateAdded:NOW_TS - 10800000,availability:'Available',icon:'🐓'},
+  {id:'sp4',name:'Urea Fertilizer (50kg)',price:28000,category:'Inputs',qty:20,unit:'bags',seller:'AgriSupply Ltd',phone:'08066789012',location:'Lagos',desc:'Quality urea 46% N. NASC certified. Suitable for all grains and vegetables.',dateAdded:NOW_TS - 14400000,availability:'Limited',icon:'🧪'},
+  {id:'sp5',name:'Pawpaw (Papaya)',price:3000,category:'Fruits',qty:30,unit:'crates',seller:'Green Valley Farm',phone:'08077890123',location:'Ijebu-Ode',desc:'Ripe and semi-ripe pawpaw. Sweet variety. Crate contains 12–15 fruits.',dateAdded:NOW_TS - 21600000,availability:'Available',icon:'🟡'},
+  {id:'sp6',name:'Cassava Stems',price:15000,category:'Vegetables',qty:200,unit:'bundles',seller:'FUNAAB Agric Cooperative',phone:'08088901234',location:'Abeokuta',desc:'Improved TMS cassava stems from FUNAAB certified varieties. Disease-free, high starch content.',dateAdded:NOW_TS - 43200000,availability:'Available',icon:'🌿'},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+var currentPage = 'home';
+var soilSelections = {color:'',texture:''};
+var soilPhotoData = null;
+var postImageData = null;
+var currentProductId = null;
+var currentProductPhone = '';
+var weatherLoading = false;
+var weatherCurrentLocation = '';
+var weatherFetchedAt = null;
+var products = [];
+var favorites = new Set();
+var readNotifs = new Set();
+var notifications = [];
+var activeCategory = 'All';
+var currentAnalysis = null;
+
+// ============================================================
+// STORAGE UTILITIES
+// ============================================================
+function lsGet(k, def) { try { var v=localStorage.getItem(k); return v===null?def:JSON.parse(v); } catch(e){return def;} }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){ showToast('Storage full — could not save','error'); } }
+function loadFavorites() { favorites = new Set(lsGet('greenfield_favorites',[])); }
+function saveFavorites() { lsSet('greenfield_favorites',[...favorites]); }
+function loadReadNotifs() { readNotifs = new Set(lsGet('greenfield_read_notifs',[])); }
+function saveReadNotifs() { lsSet('greenfield_read_notifs',[...readNotifs]); }
+function loadNotifications() {
+  var saved = lsGet('greenfield_notifs', null);
+  notifications = saved || SAMPLE_NOTIFS;
+  if (!saved) lsSet('greenfield_notifs', notifications);
+}
+function saveNotifications() { lsSet('greenfield_notifs', notifications); }
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function timeAgo(ts) {
+  var d = Date.now() - ts;
+  if (d < 60000) return 'just now';
+  if (d < 3600000) return Math.floor(d/60000) + ' min ago';
+  if (d < 86400000) return Math.floor(d/3600000) + 'h ago';
+  return Math.floor(d/86400000) + 'd ago';
+}
+function fmtDate(ts) {
+  return new Date(ts).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+function sanitize(str) {
+  var d = document.createElement('div');
+  d.textContent = String(str || '');
+  return d.innerHTML;
+}
+function showToast(msg, type) {
+  type = type || 'info';
+  var tc = document.getElementById('toast-container');
+  var t = document.createElement('div');
+  t.className = 'toast toast-' + type;
+  t.innerHTML = (type==='success'?'✅':type==='error'?'❌':'ℹ️') + ' ' + sanitize(msg);
+  tc.appendChild(t);
+  setTimeout(function(){ t.classList.add('hiding'); setTimeout(function(){t.remove();},300); }, 3000);
+}
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function toggleTheme() {
+  var r = document.documentElement;
+  var cur = r.getAttribute('data-theme');
+  var next = cur === 'dark' ? 'light' : 'dark';
+  r.setAttribute('data-theme', next);
+  lsSet('greenfield_theme', next);
+  document.querySelector('.theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+}
+function getLevel(val, low, mod, good, high) {
+  if (val >= high) return 'excellent';
+  if (val >= good) return 'high';
+  if (val >= mod) return 'good';
+  if (val >= low) return 'moderate';
+  return 'low';
+}
+function levelLabel(l) {
+  return {low:'Low',moderate:'Moderate',good:'Good',high:'High',excellent:'Excellent'}[l] || l;
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+var pageOrder = ['home','soil','weather','market','notif'];
+function showPage(id, triggerEl) {
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.bnav-btn').forEach(function(b){b.classList.remove('active');});
+  var el = document.getElementById('page-'+id);
+  if (el) el.classList.add('active');
+  currentPage = id;
+  var idx = pageOrder.indexOf(id);
+  var navTabs = document.querySelectorAll('.nav-tab');
+  var bnavBtns = document.querySelectorAll('.bnav-btn');
+  if (idx >= 0) {
+    if (navTabs[idx]) navTabs[idx].classList.add('active');
+    if (bnavBtns[idx]) bnavBtns[idx].classList.add('active');
+  }
+  if (id === 'weather') {
+    var showing = document.getElementById('weather-content').classList.contains('show');
+    if (!showing || !weatherCurrentLocation || weatherCurrentLocation !== document.getElementById('weather-location-select').value) {
+      fetchWeather();
+    }
+  }
+  if (id === 'home') { updateHomeStats(); renderHomeWeather(); renderHomeRecentSoil(); renderHomeRecentMarket(); }
+  if (id === 'notif') renderNotifications();
+  if (id === 'market') renderProducts();
+  if (id === 'soil') renderSoilHistory();
+  if (id === 'profile') renderProfile();
+  if (id === 'admin') renderAdmin();
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+function renderNotifications() {
+  loadReadNotifs();
+  var list = document.getElementById('notif-list');
+  var all = allNotifications();
+  if (!all.length) { list.innerHTML = '<div class="empty-state"><div class="es-icon">🔔</div><div class="es-title">No notifications</div></div>'; return; }
+  list.innerHTML = all.map(function(n){
+    var read = readNotifs.has(n.id);
+    return '<div class="notif-entry'+(read?'':' unread')+'" onclick="markRead(\''+n.id+'\')" role="button" tabindex="0" aria-label="'+(read?'':'Unread: ')+n.title+'">'
+      +'<div class="notif-type-icon">'+sanitize(n.icon)+'</div>'
+      +'<div class="notif-content"><div class="notif-title">'+sanitize(n.title)+'</div>'
+      +'<div class="notif-body">'+sanitize(n.body)+'</div>'
+      +'<div class="notif-time">'+(n.announcement?'📢 Announcement · ':'')+timeAgo(n.timestamp)+'</div></div>'
+      +'<div class="notif-dot"></div></div>';
+  }).join('');
+  updateNotifBadge();
+}
+function markRead(id) {
+  readNotifs.add(id);
+  saveReadNotifs();
+  renderNotifications();
+}
+function markAllRead() {
+  allNotifications().forEach(function(n){ readNotifs.add(n.id); });
+  saveReadNotifs();
+  renderNotifications();
+  showToast('All notifications marked as read','success');
+}
+function clearReadNotifs() {
+  notifications = notifications.filter(function(n){ return !readNotifs.has(n.id); });
+  saveNotifications();
+  hideReadAnnouncements();
+  renderNotifications();
+  showToast('Read notifications cleared','info');
+}
+function updateNotifBadge() {
+  var count = allNotifications().filter(function(n){ return !readNotifs.has(n.id); }).length;
+  var badge = document.getElementById('notif-badge');
+  var bBadge = document.getElementById('notif-bnav-badge');
+  if (count > 0) {
+    badge.textContent = count > 9 ? '9+' : count;
+    badge.hidden = false;
+    bBadge.textContent = count > 9 ? '9+' : count;
+    bBadge.hidden = false;
+  } else {
+    badge.hidden = true;
+    bBadge.hidden = true;
+  }
+}
+function addNotification(type, icon, title, body) {
+  var n = {id:'n_'+Date.now(),type:type,icon:icon,title:title,body:body,timestamp:Date.now()};
+  notifications.unshift(n);
+  saveNotifications();
+  updateNotifBadge();
+}
+
+// ============================================================
+// SOIL ANALYZER
+// ============================================================
+function initSoilColorGrid() {
+  var g = document.getElementById('soil-color-grid');
+  g.innerHTML = SOIL_COLORS.map(function(c){
+    return '<button class="opt-btn" onclick="selectSoilColor(\''+c.label+'\',this)" aria-label="'+c.label+'" style="display:flex;align-items:center;gap:8px">'
+      +'<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:'+c.hex+';border:2px solid rgba(0,0,0,.2);flex-shrink:0"></span>'
+      +sanitize(c.label)+'</button>';
+  }).join('');
+}
+function initSoilTextureGrid() {
+  var g = document.getElementById('soil-texture-grid');
+  var icons = {Clay:'🧱',Loam:'🌱',Sandy:'🏖',Silty:'💧'};
+  var descs = {Clay:'Heavy, sticky when wet',Loam:'Balanced, ideal for most crops',Sandy:'Light, drains fast',Silty:'Smooth, good water retention'};
+  g.innerHTML = SOIL_TEXTURES.map(function(t){
+    return '<button class="opt-btn" onclick="selectSoilTexture(\''+t+'\',this)" aria-label="'+t+' soil">'
+      +'<div style="font-size:1.4rem">'+icons[t]+'</div>'
+      +'<div style="font-weight:700">'+t+'</div>'
+      +'<div style="font-size:.7rem;color:var(--fg3);font-weight:400">'+descs[t]+'</div></button>';
+  }).join('');
+}
+function selectSoilColor(color, btn) {
+  soilSelections.color = color;
+  document.querySelectorAll('#soil-color-grid .opt-btn').forEach(function(b){b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
+  btn.classList.add('selected'); btn.setAttribute('aria-pressed','true');
+  document.getElementById('err-color').classList.remove('show');
+}
+function selectSoilTexture(tex, btn) {
+  soilSelections.texture = tex;
+  document.querySelectorAll('#soil-texture-grid .opt-btn').forEach(function(b){b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
+  btn.classList.add('selected'); btn.setAttribute('aria-pressed','true');
+  document.getElementById('err-texture').classList.remove('show');
+}
+function triggerPhotoUpload() { document.getElementById('soil-photo-input').click(); }
+function removePhoto() {
+  soilPhotoData = null;
+  document.getElementById('soil-photo-preview').style.display = 'none';
+  document.getElementById('soil-photo-preview').src = '';
+  document.getElementById('soil-photo-placeholder').style.display = '';
+  document.getElementById('soil-photo-controls').style.display = 'none';
+  document.getElementById('soil-photo-note').style.display = 'none';
+  document.getElementById('soil-photo-area').classList.remove('has-image');
+  document.getElementById('photo-filename').textContent = '';
+  document.getElementById('soil-photo-input').value = '';
+}
+function analyzeSoil() {
+  var valid = true;
+  if (!soilSelections.color) { document.getElementById('err-color').classList.add('show'); valid = false; }
+  if (!soilSelections.texture) { document.getElementById('err-texture').classList.add('show'); valid = false; }
+  if (!valid) { showToast('Please select both soil color and texture','error'); return; }
+  document.getElementById('soil-form-section').style.opacity = '0.5';
+  document.getElementById('soil-analyze-btn').disabled = true;
+  document.getElementById('soil-analyzing').style.display = 'block';
+  setTimeout(function(){
+    document.getElementById('soil-form-section').style.opacity = '1';
+    document.getElementById('soil-analyze-btn').disabled = false;
+    document.getElementById('soil-analyzing').style.display = 'none';
+    showSoilResult();
+  }, 1400);
+}
+function showSoilResult() {
+  var key = soilSelections.color + '|' + soilSelections.texture;
+  var profile = SOIL_PROFILES[key] || SOIL_PROFILES[soilSelections.color + '|Loam'];
+  var recs = CROP_RECS[key] || CROP_RECS[soilSelections.color + '|Loam'];
+  currentAnalysis = {
+    color: soilSelections.color, texture: soilSelections.texture,
+    profile: profile, recs: recs, notes: document.getElementById('soil-notes').value,
+    photo: soilPhotoData
+  };
+  // badges
+  document.getElementById('result-color-badge').textContent = soilSelections.color;
+  document.getElementById('result-texture-badge').textContent = soilSelections.texture;
+  var rb = document.getElementById('result-rating-badge');
+  rb.textContent = profile.rating;
+  rb.className = 'badge badge-'+(profile.ratingClass==='danger'?'danger':profile.ratingClass==='excellent'||profile.ratingClass==='good'?'good':'warn');
+  // notes
+  var notes = document.getElementById('soil-notes').value.trim();
+  var nd = document.getElementById('result-notes-display');
+  if (notes) { nd.style.display = ''; nd.innerHTML = '📝 <strong>Field Notes:</strong> ' + sanitize(notes); }
+  else nd.style.display = 'none';
+  // nutrient levels
+  var nL = getLevel(profile.n,60,100,140,180);
+  var pL = getLevel(profile.p,10,18,28,40);
+  var kL = getLevel(profile.k,90,130,170,200);
+  var ocL = getLevel(profile.oc,1.0,1.8,2.8,3.8);
+  var phL = (profile.ph >= 6.0 && profile.ph <= 7.0) ? 'good' : (profile.ph >= 5.5 && profile.ph < 6.0) ? 'moderate' : profile.ph > 7.0 ? 'moderate' : 'low';
+  document.getElementById('result-levels').innerHTML = [
+    makeLevelBar('Nitrogen (N)',profile.n,'mg/kg',nL),
+    makeLevelBar('Phosphorus (P)',profile.p,'mg/kg',pL),
+    makeLevelBar('Potassium (K)',profile.k,'mg/kg',kL),
+    makeLevelBar('Organic Carbon',profile.oc,'%',ocL),
+  ].join('');
+  document.getElementById('result-nutrients').innerHTML = [
+    makeNutrientCard('Nitrogen (N)',profile.n,'mg/kg',nL),
+    makeNutrientCard('Phosphorus (P)',profile.p,'mg/kg',pL),
+    makeNutrientCard('Potassium (K)',profile.k,'mg/kg',kL),
+    makeNutrientCard('pH',profile.ph,'',phL),
+    makeNutrientCard('Organic Carbon',profile.oc,'%',ocL),
+  ].join('');
+  // crops
+  document.getElementById('result-crops').innerHTML = recs.crops.map(function(c){ return '<span class="badge badge-good">'+sanitize(c)+'</span>'; }).join('');
+  // fert
+  document.getElementById('result-fert').innerHTML = '<p>'+sanitize(recs.fert)+'</p>';
+  // management
+  document.getElementById('result-mgmt').innerHTML = '<ul style="padding-left:18px;margin:0">'+recs.mgmt.map(function(t){ return '<li style="margin-bottom:6px;font-size:.85rem;color:var(--fg)">'+sanitize(t)+'</li>'; }).join('')+'</ul>';
+  document.getElementById('soil-result').style.display = 'block';
+  document.getElementById('soil-result').scrollIntoView({behavior:'smooth'});
+}
+function makeLevelBar(label, val, unit, level) {
+  return '<div class="level-bar">'
+    +'<div class="level-label">'+sanitize(label)+'</div>'
+    +'<div class="level-track"><div class="level-fill '+level+'"></div></div>'
+    +'<div class="level-text '+level+'">'+levelLabel(level)+'</div></div>';
+}
+function makeNutrientCard(label, val, unit, level) {
+  return '<div class="nutrient-card">'
+    +'<div class="nc-label">'+sanitize(label)+'</div>'
+    +'<div class="nc-value">'+val+'<span class="nc-unit"> '+unit+'</span></div>'
+    +'<span class="badge badge-'+(level==='low'||level==='poor'?'danger':level==='moderate'?'warn':level==='excellent'||level==='high'?'info':'good')+'">'+levelLabel(level)+'</span>'
+    +'</div>';
+}
+function resetSoilForm() {
+  soilSelections = {color:'',texture:''};
+  soilPhotoData = null;
+  document.querySelectorAll('.opt-btn').forEach(function(o){o.classList.remove('selected');});
+  document.getElementById('soil-notes').value = '';
+  document.getElementById('soil-result').style.display = 'none';
+  removePhoto();
+  document.getElementById('soil-form-section').scrollIntoView({behavior:'smooth'});
+}
+function saveCurrentAnalysis() {
+  if (!currentAnalysis) return;
+  var entry = {
+    id: Date.now(), date: Date.now(),
+    color: currentAnalysis.color, texture: currentAnalysis.texture,
+    rating: currentAnalysis.profile.rating, ph: currentAnalysis.profile.ph,
+    n: currentAnalysis.profile.n, p: currentAnalysis.profile.p, k: currentAnalysis.profile.k,
+    oc: currentAnalysis.profile.oc, crops: currentAnalysis.recs.crops,
+    fert: currentAnalysis.recs.fert, mgmt: currentAnalysis.recs.mgmt,
+    notes: currentAnalysis.notes || ''
+  };
+  saveSoilEntry(entry);
+  showToast(GF.online && GF.user ? 'Analysis saved to your account!' : 'Analysis saved!', 'success');
+  addNotification('soil','🧪','Soil analysis saved','Your '+currentAnalysis.color+' '+currentAnalysis.texture+' soil analysis has been saved.');
+  document.getElementById('btn-save-analysis').textContent = '✓ Saved';
+  document.getElementById('btn-save-analysis').disabled = true;
+  renderSoilHistory();
+  updateHomeStats();
+}
+function renderSoilHistory() {
+  var history = getSoilHistory();
+  var list = document.getElementById('soil-history-list');
+  if (!history.length) { list.innerHTML = '<div style="font-size:.85rem;color:var(--fg3);text-align:center;padding:16px">No saved analyses yet. Analyze a soil sample and save the results.'+(GF.online&&!GF.user?' <button class="link-btn" onclick="openAuth()">Sign in</button> to keep them on all your devices.':'')+'</div>'; return; }
+  list.innerHTML = history.map(function(h){
+    var col = SOIL_COLOR_COLORS[h.color] || '#888';
+    return '<div class="history-entry" onclick="viewHistoryEntry('+h.id+')" role="button" tabindex="0" aria-label="View analysis: '+sanitize(h.color)+' '+sanitize(h.texture)+'">'
+      +'<div class="he-color" style="background:'+col+'" aria-hidden="true"></div>'
+      +'<div class="he-info"><div class="he-title">'+sanitize(h.color)+' · '+sanitize(h.texture)+'</div>'
+      +'<div class="he-meta">'+fmtDate(h.date)+' · pH '+h.ph+' · '+sanitize(h.rating)+'</div>'
+      +'<div class="he-meta" style="margin-top:2px">'+sanitize((h.crops||[]).slice(0,3).join(', '))+'</div></div>'
+      +'<span class="badge badge-'+(h.rating==='Good'||h.rating==='Excellent'?'good':h.rating==='Moderate'?'warn':'danger')+'">'+sanitize(h.rating)+'</span>'
+      +'<button class="he-del" onclick="deleteHistoryEntry(event,'+h.id+')" aria-label="Delete this analysis">🗑</button></div>';
+  }).join('');
+}
+function viewHistoryEntry(id) {
+  var history = getSoilHistory();
+  var h = history.find(function(e){return e.id === id;});
+  if (!h) return;
+  var col = SOIL_COLOR_COLORS[h.color] || '#888';
+  var body = document.getElementById('history-modal-body');
+  body.innerHTML = '<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">'
+    +'<div style="width:40px;height:40px;border-radius:50%;background:'+col+';border:2px solid var(--border)"></div>'
+    +'<div><div style="font-weight:700">'+sanitize(h.color)+' · '+sanitize(h.texture)+'</div>'
+    +'<div style="font-size:.78rem;color:var(--fg3)">'+fmtDate(h.date)+'</div></div></div>'
+    +'<div class="estimate-disclaimer">ℹ️ Estimated values — not laboratory measurements</div>'
+    +'<div style="margin-bottom:12px">'
+    +'<div class="level-bar">'+makeLevelBar('Nitrogen',h.n,'mg/kg',getLevel(h.n,60,100,140,180))+'</div>'
+    +'<div class="level-bar">'+makeLevelBar('Phosphorus',h.p,'mg/kg',getLevel(h.p,10,18,28,40))+'</div>'
+    +'<div class="level-bar">'+makeLevelBar('Potassium',h.k,'mg/kg',getLevel(h.k,90,130,170,200))+'</div>'
+    +'<div class="level-bar">'+makeLevelBar('Org. Carbon',h.oc,'%',getLevel(h.oc,1.0,1.8,2.8,3.8))+'</div></div>'
+    +'<div style="margin-bottom:12px"><strong>pH:</strong> '+h.ph+' &nbsp; <strong>Rating:</strong> '+sanitize(h.rating)+'</div>'
+    +(h.notes?'<div style="background:var(--bg3);border-radius:8px;padding:10px;font-size:.82rem;margin-bottom:12px"><strong>Notes:</strong> '+sanitize(h.notes)+'</div>':'')
+    +'<div style="margin-bottom:8px"><strong style="font-size:.82rem">Recommended Crops:</strong><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">'
+    +(h.crops||[]).map(function(c){return '<span class="badge badge-good">'+sanitize(c)+'</span>';}).join('')+'</div></div>';
+  document.getElementById('history-modal-title').textContent = sanitize(h.color)+' Soil Analysis';
+  openModal('history-modal');
+}
+function deleteHistoryEntry(e, id) {
+  e.stopPropagation();
+  deleteSoilEntry(id);
+  renderSoilHistory();
+  renderHomeRecentSoil();
+  updateHomeStats();
+  showToast('Analysis deleted','info');
+}
+// Photo upload handler
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('soil-photo-input').addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { document.getElementById('err-photo').textContent = 'Please select an image file (JPG, PNG, WebP)'; document.getElementById('err-photo').classList.add('show'); return; }
+    if (file.size > 5*1024*1024) { document.getElementById('err-photo').textContent = 'Image must be under 5MB'; document.getElementById('err-photo').classList.add('show'); return; }
+    document.getElementById('err-photo').classList.remove('show');
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      soilPhotoData = ev.target.result;
+      var prev = document.getElementById('soil-photo-preview');
+      prev.src = soilPhotoData; prev.style.display = 'block';
+      document.getElementById('soil-photo-placeholder').style.display = 'none';
+      document.getElementById('soil-photo-controls').style.display = 'flex';
+      document.getElementById('soil-photo-area').classList.add('has-image');
+      document.getElementById('photo-filename').textContent = file.name + ' · ' + (file.size/1024).toFixed(0) + 'KB';
+      document.getElementById('soil-photo-note').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// ============================================================
+// WEATHER MODULE
+// ============================================================
+function wmoLabel(code) { return WMO[code] || 'Unknown'; }
+function wmoIcon(code) { return WMO_ICON[code] || '🌡'; }
+function onWeatherLocationChange() {
+  document.getElementById('weather-content').classList.remove('show');
+  document.getElementById('weather-error').classList.remove('show');
+  document.getElementById('weather-skeleton').classList.remove('show');
+  document.getElementById('weather-updated').textContent = '';
+}
+function fetchWeather() {
+  if (weatherLoading) return;
+  var loc = document.getElementById('weather-location-select').value;
+  var coords = LOCATIONS[loc];
+  if (!coords) return;
+  weatherLoading = true;
+  document.getElementById('weather-refresh-btn').disabled = true;
+  document.getElementById('weather-content').classList.remove('show');
+  document.getElementById('weather-error').classList.remove('show');
+  document.getElementById('weather-skeleton').classList.add('show');
+  document.getElementById('weather-updated').textContent = 'Fetching latest forecast…';
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude='+coords.lat+'&longitude='+coords.lng
+    +'&current_weather=true'
+    +'&hourly=relative_humidity_2m,precipitation_probability,weathercode,temperature_2m'
+    +'&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max'
+    +'&forecast_days=7&timezone=Africa%2FLagos';
+  fetch(url).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(function(data){
+    weatherLoading = false;
+    weatherCurrentLocation = loc;
+    weatherFetchedAt = Date.now();
+    document.getElementById('weather-refresh-btn').disabled = false;
+    document.getElementById('weather-skeleton').classList.remove('show');
+    document.getElementById('weather-updated').textContent = '↻ Updated just now';
+    renderWeather(data, loc, coords);
+    document.getElementById('weather-content').classList.add('show');
+    // update home weather snap too
+    renderHomeWeatherFromData(data, loc, coords);
+  })
+  .catch(function(err){
+    weatherLoading = false;
+    document.getElementById('weather-refresh-btn').disabled = false;
+    document.getElementById('weather-skeleton').classList.remove('show');
+    document.getElementById('weather-error').classList.add('show');
+    document.getElementById('weather-updated').textContent = '';
+  });
+}
+function renderWeather(data, loc, coords) {
+  var cw = data.current_weather;
+  var code = cw.weathercode;
+  var temp = cw.temperature;
+  var wind = cw.windspeed;
+  // humidity: get current hour index from hourly times
+  var now = new Date();
+  var hourIdx = 0;
+  if (data.hourly && data.hourly.time) {
+    var times = data.hourly.time;
+    var nowStr = now.toISOString().slice(0,13);
+    for (var i = 0; i < times.length; i++) {
+      if (times[i].slice(0,13) === nowStr) { hourIdx = i; break; }
+    }
+  }
+  var humidity = (data.hourly && data.hourly.relative_humidity_2m) ? data.hourly.relative_humidity_2m[hourIdx] : '--';
+  var todayRain = (data.daily && data.daily.precipitation_sum) ? (data.daily.precipitation_sum[0] || 0).toFixed(1) : '--';
+  // current card
+  document.getElementById('wcc-icon').textContent = wmoIcon(code);
+  document.getElementById('wcc-temp').textContent = Math.round(temp) + '°C';
+  document.getElementById('wcc-cond').textContent = wmoLabel(code);
+  document.getElementById('wcc-loc').textContent = coords.label;
+  document.getElementById('wcc-humidity').textContent = humidity + '%';
+  document.getElementById('wcc-wind').textContent = wind + ' km/h';
+  document.getElementById('wcc-rain').textContent = todayRain + ' mm';
+  // 7-day forecast
+  var row = document.getElementById('forecast-row');
+  var days = data.daily;
+  var dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  row.innerHTML = '';
+  for (var d = 0; d < 7; d++) {
+    var dt = new Date(days.time[d] + 'T12:00:00');
+    var isToday = d === 0;
+    var dCode = days.weathercode[d];
+    var tMax = Math.round(days.temperature_2m_max[d]);
+    var tMin = Math.round(days.temperature_2m_min[d]);
+    var precip = (days.precipitation_sum[d] || 0).toFixed(1);
+    var prob = days.precipitation_probability_max ? (days.precipitation_probability_max[d] || 0) : '--';
+    var card = document.createElement('div');
+    card.className = 'forecast-day' + (isToday ? ' today' : '');
+    card.setAttribute('role','listitem');
+    card.setAttribute('aria-label', (isToday?'Today':'Day '+(d+1))+': '+wmoLabel(dCode)+', '+tMax+'°C / '+tMin+'°C');
+    card.innerHTML = '<div class="fd-day">'+(isToday?'TODAY':dayNames[dt.getDay()])+'</div>'
+      +'<div class="fd-date">'+(dt.getDate())+'/'+(dt.getMonth()+1)+'</div>'
+      +'<div class="fd-icon">'+wmoIcon(dCode)+'</div>'
+      +'<div class="fd-cond">'+wmoLabel(dCode)+'</div>'
+      +'<div class="fd-temps"><span class="fd-max">'+tMax+'°</span><span class="fd-min">'+tMin+'°</span></div>'
+      +'<div class="fd-rain">💧 '+precip+'mm</div>'
+      +(prob!=='--'?'<div class="fd-prob">'+prob+'% rain</div>':'');
+    row.appendChild(card);
+  }
+  // agricultural advice
+  renderAgriAdvice(data, loc);
+}
+function renderAgriAdvice(data, loc) {
+  var cw = data.current_weather;
+  var code = cw.weathercode;
+  var temp = cw.temperature;
+  var wind = cw.windspeed;
+  var days = data.daily;
+  var todayRain = (days && days.precipitation_sum) ? (days.precipitation_sum[0] || 0) : 0;
+  var tomorrowRain = (days && days.precipitation_sum && days.precipitation_sum[1]) ? days.precipitation_sum[1] : 0;
+  var maxProb = (days && days.precipitation_probability_max && days.precipitation_probability_max[0]) ? days.precipitation_probability_max[0] : 0;
+  var hourIdx = 0;
+  var now = new Date();
+  if (data.hourly && data.hourly.time) {
+    var times = data.hourly.time;
+    var nowStr = now.toISOString().slice(0,13);
+    for (var i=0;i<times.length;i++){if(times[i].slice(0,13)===nowStr){hourIdx=i;break;}}
+  }
+  var humidity = (data.hourly && data.hourly.relative_humidity_2m) ? data.hourly.relative_humidity_2m[hourIdx] : 60;
+  // Planting
+  var plantStatus, plantBadge, plantMsg;
+  if (code <= 2 && temp >= 20 && temp <= 34 && humidity < 85) {
+    plantStatus = 'Suitable'; plantBadge = 'badge-good';
+    plantMsg = 'Conditions are good for transplanting and field operations. Low moisture stress expected.';
+  } else if (code >= 61 && code <= 67) {
+    plantStatus = 'Unfavorable'; plantBadge = 'badge-danger';
+    plantMsg = 'Ongoing rain makes field operations difficult. Wait for dry conditions before planting or transplanting.';
+  } else if (temp > 36 || humidity > 90) {
+    plantStatus = 'Caution'; plantBadge = 'badge-warn';
+    plantMsg = 'High temperature or humidity may stress young seedlings. Plant early morning or wait for cooler days.';
+  } else {
+    plantStatus = 'Caution'; plantBadge = 'badge-warn';
+    plantMsg = 'Conditions are acceptable but monitor weather closely before major planting operations.';
+  }
+  // Irrigation
+  var irrigMsg;
+  if (todayRain >= 10 || code >= 61) { irrigMsg = 'Sufficient rainfall today — skip irrigation to avoid waterlogging. Monitor soil drainage.'; }
+  else if (todayRain >= 3) { irrigMsg = 'Light rainfall. Supplement with 10–15mm irrigation for most crops. Leafy vegetables may not need it.'; }
+  else if (temp >= 32 || humidity < 45) { irrigMsg = 'Hot and dry conditions — irrigate in the evening (15–25mm). Avoid midday irrigation to reduce evaporation.'; }
+  else { irrigMsg = 'Moderate conditions. Irrigate according to your crop schedule. Check soil moisture before each application.'; }
+  // Pest/Disease
+  var pestRisk, pestBadge, pestMsg;
+  if (humidity > 80 && (code >= 51 || tomorrowRain > 5)) {
+    pestRisk = 'High'; pestBadge = 'badge-danger';
+    pestMsg = 'High humidity and wet conditions significantly increase fungal disease risk (leaf blight, mildew). Scout crops daily. Consider preventive fungicide application.';
+  } else if (humidity > 65 || (code >= 45 && code <= 60)) {
+    pestRisk = 'Moderate'; pestBadge = 'badge-warn';
+    pestMsg = 'Moderate humidity may favour some fungal issues. Watch for early signs of powdery mildew and aphid activity after rain.';
+  } else {
+    pestRisk = 'Low'; pestBadge = 'badge-good';
+    pestMsg = 'Dry conditions reduce fungal disease pressure. Aphid and whitefly activity may increase. Regular scouting recommended.';
+  }
+  // Alert
+  var alertMsg = null;
+  if (code >= 95) { alertMsg = '⛈ Thunderstorm expected — secure structures, protect nurseries, and postpone aerial operations.'; }
+  else if (code >= 80 && code <= 82) { alertMsg = '🌧 Heavy showers forecast — check drainage channels and anchor any overhead structures.'; }
+  else if (temp > 37) { alertMsg = '🌡 Extreme heat — ensure livestock have shade and water. Reduce field labor during 11am–3pm.'; }
+  else if (wind > 40) { alertMsg = '💨 Strong winds — check crop supports, secure greenhouse covers, and postpone spraying.'; }
+  // Farm action
+  var farmMsg;
+  if (code <= 2 && temp <= 34) { farmMsg = 'Good day for field operations. Ideal for planting, weeding, fertilizer application, or harvesting dry crops.'; }
+  else if (code >= 61) { farmMsg = 'Wet conditions — indoor tasks recommended: equipment maintenance, record-keeping, seed selection, or marketing activities.'; }
+  else { farmMsg = 'Moderate conditions. Light field work is possible. Avoid heavy machinery on wet or soft soils.'; }
+
+  var html = ''
+    +'<div class="advice-section"><div class="advice-section-header">🌱 Planting Conditions &nbsp;<span class="badge '+plantBadge+'">'+plantStatus+'</span></div><div class="advice-section-body">'+sanitize(plantMsg)+'</div></div>'
+    +'<div class="advice-section"><div class="advice-section-header">💧 Irrigation Advice</div><div class="advice-section-body">'+sanitize(irrigMsg)+'</div></div>'
+    +'<div class="advice-section"><div class="advice-section-header">🐛 Pest &amp; Disease Risk &nbsp;<span class="badge '+pestBadge+'">'+pestRisk+'</span></div><div class="advice-section-body">'+sanitize(pestMsg)+'</div></div>'
+    +(alertMsg?'<div class="advice-section"><div class="advice-section-header">⚠️ Weather Alert</div><div class="advice-section-body">'+sanitize(alertMsg)+'</div></div>':'')
+    +'<div class="advice-section"><div class="advice-section-header">👨‍🌾 Farm Action</div><div class="advice-section-body">'+sanitize(farmMsg)+'</div></div>';
+  document.getElementById('agri-advice-content').innerHTML = html;
+}
+
+// Home weather snap
+function fetchHomeWeather() {
+  var loc = 'Abeokuta';
+  var coords = LOCATIONS[loc];
+  document.getElementById('hws-loading').style.display = 'block';
+  document.getElementById('hws-content').style.display = 'none';
+  document.getElementById('hws-error').style.display = 'none';
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude='+coords.lat+'&longitude='+coords.lng+'&current_weather=true&forecast_days=1&timezone=Africa%2FLagos';
+  fetch(url).then(function(r){return r.json();}).then(function(data){
+    renderHomeWeatherFromData(data, loc, coords);
+  }).catch(function(){
+    document.getElementById('hws-loading').style.display = 'none';
+    document.getElementById('hws-error').style.display = 'block';
+  });
+}
+function renderHomeWeather() {
+  // If weather data already fetched in weather tab, reuse; else fetch
+  var content = document.getElementById('weather-content');
+  if (content.classList.contains('show') && weatherCurrentLocation === 'Abeokuta') {
+    // just show cached
+    var icon = document.getElementById('wcc-icon').textContent;
+    var temp = document.getElementById('wcc-temp').textContent;
+    var cond = document.getElementById('wcc-cond').textContent;
+    document.getElementById('hws-icon').textContent = icon;
+    document.getElementById('hws-temp').textContent = temp;
+    document.getElementById('hws-cond').textContent = cond;
+    document.getElementById('hws-loading').style.display = 'none';
+    document.getElementById('hws-content').style.display = 'block';
+  } else {
+    fetchHomeWeather();
+  }
+}
+function renderHomeWeatherFromData(data, loc, coords) {
+  var cw = data.current_weather;
+  document.getElementById('hws-icon').textContent = wmoIcon(cw.weathercode);
+  document.getElementById('hws-temp').textContent = Math.round(cw.temperature) + '°C';
+  document.getElementById('hws-cond').textContent = wmoLabel(cw.weathercode);
+  document.getElementById('hws-loc').textContent = coords.label;
+  document.getElementById('hws-loading').style.display = 'none';
+  document.getElementById('hws-content').style.display = 'block';
+}
+
+// Refresh updated-ago text
+setInterval(function(){
+  if (weatherFetchedAt && document.getElementById('weather-updated')) {
+    document.getElementById('weather-updated').textContent = '↻ Updated ' + timeAgo(weatherFetchedAt);
+  }
+}, 60000);
+
+// ============================================================
+// MARKETPLACE MODULE
+// ============================================================
+function loadProducts() {
+  if (GF.online) { products = GF.listings.slice(); return; }
+  var user = lsGet('greenfield_user_products', []);
+  products = user.concat(SAMPLE_PRODUCTS);
+}
+function saveUserProduct(p) {
+  var user = lsGet('greenfield_user_products', []);
+  user.unshift(p);
+  lsSet('greenfield_user_products', user);
+}
+function setCategory(cat, btn) {
+  activeCategory = cat;
+  document.querySelectorAll('.filter-chip[data-cat]').forEach(function(c){c.classList.remove('active');});
+  if (btn) btn.classList.add('active');
+  renderProducts();
+}
+function toggleMoreFilters(btn) {
+  var ex = document.getElementById('filter-expand');
+  var open = ex.classList.contains('show');
+  ex.classList.toggle('show');
+  btn.classList.toggle('active');
+}
+function clearSearch() {
+  document.getElementById('market-search').value = '';
+  renderProducts();
+}
+function renderProducts() {
+  loadFavorites();
+  var q = (document.getElementById('market-search').value || '').toLowerCase().trim();
+  var locFilter = document.getElementById('filter-location') ? document.getElementById('filter-location').value : '';
+  var priceFilter = document.getElementById('filter-price') ? document.getElementById('filter-price').value : '';
+  var availFilter = document.getElementById('filter-avail') ? document.getElementById('filter-avail').value : '';
+  var filtered = products.filter(function(p){
+    if (activeCategory === 'Saved') return favorites.has(p.id);
+    if (activeCategory !== 'All' && p.category !== activeCategory) return false;
+    if (locFilter && !(p.location||'').toLowerCase().includes(locFilter.toLowerCase())) return false;
+    if (availFilter && p.availability !== availFilter) return false;
+    if (priceFilter) {
+      var pr = Number(p.price);
+      if (priceFilter === '0-5000' && pr >= 5000) return false;
+      if (priceFilter === '5000-20000' && (pr < 5000 || pr >= 20000)) return false;
+      if (priceFilter === '20000-100000' && (pr < 20000 || pr >= 100000)) return false;
+      if (priceFilter === '100000+' && pr < 100000) return false;
+    }
+    if (q) {
+      return (p.name||'').toLowerCase().includes(q)
+        || (p.category||'').toLowerCase().includes(q)
+        || (p.seller||'').toLowerCase().includes(q)
+        || (p.desc||'').toLowerCase().includes(q)
+        || (p.location||'').toLowerCase().includes(q);
+    }
+    return true;
+  });
+  var countEl = document.getElementById('market-result-count');
+  if ((GF.online && !GF.listingsLoaded) || GF.connecting) {
+    countEl.textContent = '';
+    document.getElementById('market-grid').innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="es-icon">⏳</div><div class="es-title">Loading listings…</div></div>';
+    return;
+  }
+  countEl.textContent = filtered.length + ' product' + (filtered.length!==1?'s':'') + ' found'+(q?' for "'+q+'"':'');
+  var grid = document.getElementById('market-grid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="es-icon">🛒</div><div class="es-title">'+(products.length?'No products found':'No listings yet')+'</div><div class="es-msg">'+(products.length?'<button class="link-btn" onclick="clearSearch()">Clear search</button>':'<button class="link-btn" onclick="openPostModal()">Be the first to post a product →</button>')+'</div></div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(function(p){
+    var isFav = favorites.has(p.id);
+    var img = safeImg(p.image);
+    var imgHtml = img
+      ? '<img src="'+img+'" class="product-img" alt="'+sanitize(p.name)+'" loading="lazy">'
+      : '<div class="product-img-placeholder" aria-label="No image">'+safeIcon(p.icon)+'</div>';
+    if (p.availability === 'Sold') imgHtml = '<span class="sold-tag">SOLD</span>' + imgHtml;
+    return '<div class="product-card" onclick="viewProduct(\''+p.id+'\')" tabindex="0" role="button" aria-label="View '+sanitize(p.name)+'">'
+      +imgHtml
+      +'<button class="fav-btn'+(isFav?' active':'')+'" onclick="event.stopPropagation();toggleFavorite(\''+p.id+'\')" aria-label="'+(isFav?'Remove from':'Add to')+' saved" aria-pressed="'+(isFav?'true':'false')+'">'
+      +(isFav?'❤️':'🤍')+'</button>'
+      +'<div class="product-body"><div class="product-name">'+sanitize(p.name)+'</div>'
+      +'<div class="product-price">₦'+Number(p.price).toLocaleString()+'</div>'
+      +'<div class="product-meta">'+sanitize(p.qty||'')+(p.unit?' '+sanitize(p.unit):'')+(p.availability?' · '+sanitize(p.availability):'')+'</div>'
+      +'<div class="product-location">📍 '+sanitize(p.location||'')+'</div></div></div>';
+  }).join('');
+}
+function toggleFavorite(id) {
+  loadFavorites();
+  if (favorites.has(id)) favorites.delete(id);
+  else favorites.add(id);
+  saveFavorites();
+  renderProducts();
+  updateHomeStats();
+  showToast(favorites.has(id)?'Added to saved':'Removed from saved', 'info');
+}
+function viewProduct(id) {
+  loadFavorites();
+  var p = products.find(function(pr){return pr.id == id;});
+  if (!p) return;
+  currentProductId = id;
+  currentProductPhone = p.phone || '';
+  // image
+  var imgC = document.getElementById('pm-image-container');
+  var pimg = safeImg(p.image);
+  if (pimg) {
+    imgC.innerHTML = '<img src="'+pimg+'" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-sm)" alt="'+sanitize(p.name)+'">';
+  } else {
+    imgC.innerHTML = '<span style="font-size:4rem">'+safeIcon(p.icon)+'</span>';
+  }
+  document.getElementById('pm-title').textContent = sanitize(p.name);
+  document.getElementById('pm-price').textContent = '₦' + Number(p.price).toLocaleString();
+  var avBadge = document.getElementById('pm-avail-badge');
+  avBadge.innerHTML = '<span class="badge badge-'+(p.availability==='Available'?'good':p.availability==='Limited'?'warn':'info')+'">'+sanitize(p.availability||'Available')+'</span>';
+  var details = [];
+  if (p.qty) details.push((p.qty)+(p.unit?' '+p.unit:'') + ' available');
+  if (p.location) details.push('📍 '+p.location);
+  if (p.dateAdded) details.push('Listed '+timeAgo(p.dateAdded));
+  if (p.category) details.push(p.category);
+  document.getElementById('pm-details').innerHTML = details.map(function(d){return '<div class="pm-detail-item">'+sanitize(d)+'</div>';}).join('');
+  document.getElementById('pm-desc').textContent = p.desc || 'No description provided.';
+  document.getElementById('pm-seller').textContent = p.seller || 'Unknown';
+  document.getElementById('pm-phone').textContent = p.phone || '';
+  // fav button
+  var isFav = favorites.has(id);
+  var favBtn = document.getElementById('pm-fav-btn');
+  favBtn.textContent = (isFav ? '❤️ Saved' : '🤍 Save');
+  openModal('product-modal');
+}
+function toggleCurrentFav() {
+  if (!currentProductId) return;
+  loadFavorites();
+  if (favorites.has(currentProductId)) favorites.delete(currentProductId);
+  else favorites.add(currentProductId);
+  saveFavorites();
+  var isFav = favorites.has(currentProductId);
+  document.getElementById('pm-fav-btn').textContent = isFav ? '❤️ Saved' : '🤍 Save';
+  showToast(isFav?'Added to saved':'Removed from saved','info');
+  updateHomeStats();
+}
+function contactWhatsApp() {
+  var p = products.find(function(pr){return pr.id == currentProductId;});
+  if (!p) return;
+  var msg = 'Hello! I saw your listing for *'+p.name+'* (₦'+Number(p.price).toLocaleString()+') on GreenField Marketplace. Is it still available?';
+  var num = (p.phone||'').replace(/\D/g,'');
+  if (num.startsWith('0')) num = '234' + num.slice(1);
+  var url = 'https://wa.me/'+num+'?text='+encodeURIComponent(msg);
+  window.open(url, '_blank');
+}
+function copyPhone() {
+  var num = currentProductPhone;
+  if (!num) { showToast('No phone number available','error'); return; }
+  function showCopied() { showToast('Phone number copied!','success'); }
+  function fallback(t) { var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove(); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(num).then(showCopied).catch(function(){fallback(num);showCopied();});
+  } else { fallback(num); showCopied(); }
+}
+
+// Post listing
+function openPostModal() {
+  if (!requireAuth('Sign in to post a listing so buyers know who they are dealing with.')) return;
+  // reset form
+  ['post-name','post-price','post-category','post-qty','post-location','post-seller','post-phone','post-desc'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('post-unit').value = 'kg';
+  document.getElementById('post-avail').value = 'Available';
+  removePostImage();
+  document.querySelectorAll('[id^="err-post"]').forEach(function(e){e.classList.remove('show');});
+  document.getElementById('post-status').style.display = 'none';
+  document.getElementById('post-submit-btn').disabled = false;
+  document.getElementById('post-submit-btn').textContent = '📦 Post Listing';
+  if (GF.online && GF.profile) {
+    document.getElementById('post-seller').value = GF.profile.name || '';
+    document.getElementById('post-phone').value = GF.profile.phone || '';
+    document.getElementById('post-location').value = GF.profile.location || '';
+  }
+  openModal('post-modal');
+}
+function triggerPostImageUpload() { document.getElementById('post-image-input').click(); }
+function removePostImage() {
+  postImageData = null;
+  var prev = document.getElementById('post-image-preview');
+  prev.style.display = 'none'; prev.src = '';
+  document.getElementById('post-image-placeholder').style.display = '';
+  document.getElementById('post-image-controls').style.display = 'none';
+  document.getElementById('post-image-area').classList.remove('has-image');
+  var inp = document.getElementById('post-image-input');
+  if (inp) inp.value = '';
+}
+function validatePost() {
+  var valid = true;
+  function check(id, errId, cond) { var e=document.getElementById(errId); if(!cond){e.classList.add('show');valid=false;}else{e.classList.remove('show');} }
+  check('post-name','err-post-name', (document.getElementById('post-name').value||'').trim().length > 1);
+  check('post-price','err-post-price', Number(document.getElementById('post-price').value) > 0);
+  check('post-category','err-post-cat', (document.getElementById('post-category').value||'') !== '');
+  check('post-qty','err-post-qty', Number(document.getElementById('post-qty').value) > 0);
+  check('post-location','err-post-loc', (document.getElementById('post-location').value||'').trim().length > 1);
+  check('post-seller','err-post-seller', (document.getElementById('post-seller').value||'').trim().length > 1);
+  check('post-phone','err-post-phone', (document.getElementById('post-phone').value||'').replace(/\D/g,'').length >= 8);
+  return valid;
+}
+function submitListing() {
+  if (!validatePost()) { showToast('Please fill all required fields','error'); return; }
+  var btn = document.getElementById('post-submit-btn');
+  var status = document.getElementById('post-status');
+  btn.disabled = true;
+  btn.textContent = '⏳ Posting…';
+  status.style.display = 'block';
+  status.textContent = postImageData ? 'Uploading photo and posting…' : 'Posting your listing…';
+  var p = {
+    id: 'u_' + Date.now(),
+    name: document.getElementById('post-name').value.trim().slice(0,80),
+    price: Number(document.getElementById('post-price').value),
+    category: document.getElementById('post-category').value,
+    qty: Number(document.getElementById('post-qty').value),
+    unit: document.getElementById('post-unit').value,
+    location: document.getElementById('post-location').value.trim().slice(0,60),
+    seller: document.getElementById('post-seller').value.trim().slice(0,60),
+    phone: document.getElementById('post-phone').value.trim().slice(0,20),
+    availability: document.getElementById('post-avail').value,
+    desc: document.getElementById('post-desc').value.trim().slice(0,1000),
+    dateAdded: Date.now(),
+    image: postImageData || null,
+    icon: '📦'
+  };
+  function done() {
+    status.textContent = '✅ Listing posted successfully!';
+    btn.textContent = '✓ Posted';
+    showToast('Listing posted!','success');
+    addNotification('market','🛒','Listing posted','Your listing for '+p.name+' is now in the marketplace.');
+    loadProducts(); updateHomeStats(); renderProducts(); renderHomeRecentMarket();
+    setTimeout(function(){ closeModal('post-modal'); }, 1000);
+  }
+  function fail(msg) {
+    status.textContent = '❌ ' + msg;
+    showToast(msg,'error');
+    btn.disabled = false; btn.textContent = '📦 Post Listing';
+  }
+  if (GF.online) {
+    if (!GF.user) { fail('Please sign in first'); openAuth(); return; }
+    createListingOnline(p).then(done).catch(function(e){ console.error(e); fail('Could not post: ' + (e.code || e.message)); });
+    return;
+  }
+  (p.image ? compressImage(p.image, 800, 0.7) : Promise.resolve(null)).then(function(img){
+    if (p.image) p.image = img;
+    try { saveUserProduct(p); } catch(e) { fail('Could not save listing'); return; }
+    done();
+  });
+}
+// Post image upload handler
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('post-image-input').addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { showToast('Please select an image file','error'); return; }
+    if (file.size > 5*1024*1024) { showToast('Image must be under 5MB','error'); return; }
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      postImageData = ev.target.result;
+      var prev = document.getElementById('post-image-preview');
+      prev.src = postImageData; prev.style.display = 'block';
+      document.getElementById('post-image-placeholder').style.display = 'none';
+      document.getElementById('post-image-controls').style.display = 'flex';
+      document.getElementById('post-image-area').classList.add('has-image');
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// ============================================================
+// HOME DASHBOARD MODULE
+// ============================================================
+function updateHomeStats() {
+  var analyses = getSoilHistory().length;
+  loadProducts();
+  var totalListings = products.filter(function(p){return p.availability!=='Sold';}).length;
+  loadFavorites();
+  var saved = favorites.size;
+  document.getElementById('stat-analyses').textContent = analyses;
+  document.getElementById('stat-listings').textContent = totalListings;
+  document.getElementById('stat-saved').textContent = saved;
+}
+function renderHomeRecentSoil() {
+  var history = getSoilHistory();
+  var el = document.getElementById('home-recent-soil');
+  if (!history.length) {
+    el.innerHTML = '<div style="font-size:.85rem;color:var(--fg3);padding:8px">No analyses yet. <button class="link-btn" onclick="showPage(\'soil\')">Start your first →</button></div>';
+    return;
+  }
+  el.innerHTML = history.slice(0,3).map(function(h){
+    var col = SOIL_COLOR_COLORS[h.color]||'#888';
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:var(--radius-sm);margin-bottom:6px;cursor:pointer" onclick="showPage(\'soil\')" role="button" tabindex="0">'
+      +'<div style="width:28px;height:28px;border-radius:50%;background:'+col+';flex-shrink:0"></div>'
+      +'<div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:700">'+sanitize(h.color)+' · '+sanitize(h.texture)+'</div>'
+      +'<div style="font-size:.73rem;color:var(--fg3)">'+fmtDate(h.date)+' · '+sanitize(h.rating)+'</div></div>'
+      +'<span class="badge badge-'+(h.rating==='Good'||h.rating==='Excellent'?'good':h.rating==='Moderate'?'warn':'danger')+'">'+sanitize(h.rating)+'</span></div>';
+  }).join('');
+}
+function renderHomeRecentMarket() {
+  loadProducts();
+  var el = document.getElementById('home-recent-market');
+  var recent = products.filter(function(p){return p.availability!=='Sold';}).slice(0,3);
+  if ((GF.online && !GF.listingsLoaded) || GF.connecting) { el.innerHTML = '<div style="font-size:.85rem;color:var(--fg3)">Loading…</div>'; return; }
+  if (!recent.length) { el.innerHTML = '<div style="font-size:.85rem;color:var(--fg3)">No listings yet. <button class="link-btn" onclick="openPostModal()">Post the first one →</button></div>'; return; }
+  el.innerHTML = recent.map(function(p){
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:var(--radius-sm);margin-bottom:6px;cursor:pointer" onclick="viewProduct(\''+p.id+'\')" role="button" tabindex="0">'
+      +'<div style="width:36px;height:36px;border-radius:var(--radius-sm);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;overflow:hidden;flex-shrink:0">'
+      +(safeImg(p.image)?'<img src="'+safeImg(p.image)+'" style="width:100%;height:100%;object-fit:cover" alt="">':'<span>'+safeIcon(p.icon)+'</span>')+'</div>'
+      +'<div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+sanitize(p.name)+'</div>'
+      +'<div style="font-size:.73rem;color:var(--fg3)">'+sanitize(p.location||'')+' · '+timeAgo(p.dateAdded)+'</div></div>'
+      +'<div style="font-size:.88rem;font-weight:800;color:var(--accent);flex-shrink:0">₦'+Number(p.price).toLocaleString()+'</div></div>';
+  }).join('');
+}
+function setDailyTip() {
+  var idx = Math.floor(Date.now() / 86400000) % AGR_TIPS.length;
+  document.getElementById('tip-text').textContent = AGR_TIPS[idx];
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', function(){
+  // Theme
+  var savedTheme = lsGet('greenfield_theme', null);
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.querySelector('.theme-btn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  }
+  // Init soil grids
+  initSoilColorGrid();
+  initSoilTextureGrid();
+  // Load data
+  loadFavorites();
+  loadReadNotifs();
+  loadNotifications();
+  loadProducts();
+  // Initial renders
+  setDailyTip();
+  updateHomeStats();
+  renderHomeWeather();
+  renderHomeRecentSoil();
+  renderHomeRecentMarket();
+  updateNotifBadge();
+  renderSoilHistory();
+  // Modal close on backdrop click
+  document.querySelectorAll('.modal-overlay').forEach(function(m){
+    m.addEventListener('click', function(e){ if(e.target===m) closeModal(m.id); });
+  });
+  // Keyboard nav for opt-btns
+  document.querySelectorAll('.opt-btn').forEach(function(b){
+    b.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();b.click();} });
+  });
+  // Keyboard for product cards, history entries
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(function(m){m.classList.remove('open');});}
+  });
+});
+</script>
+<script src="backend.js"></script>
+<script>
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
+</body>
+</html>
