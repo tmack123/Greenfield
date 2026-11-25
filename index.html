@@ -15,30 +15,63 @@
 </head>
 <body>
 
+<a class="skip-link" href="#" onclick="skipToMain(event)">Skip to main content</a>
+<div class="field-bg" aria-hidden="true">
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" focusable="false">
+    <defs><linearGradient id="fbFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--scene-field)" stop-opacity="0"/><stop offset=".35" stop-color="var(--scene-field)" stop-opacity="1"/></linearGradient>
+    <clipPath id="fbFieldClip"><path d="M0,560 L1440,560 L1440,900 L0,900Z"/></clipPath></defs>
+    <circle cx="1130" cy="250" r="80" fill="var(--scene-sun)" opacity=".7"/>
+    <g fill="var(--scene-cloud)" opacity=".8">
+      <g class="fb-cloud c1"><ellipse cx="0" cy="170" rx="90" ry="24"/><ellipse cx="40" cy="152" rx="54" ry="26"/></g>
+      <g class="fb-cloud c2"><ellipse cx="0" cy="110" rx="70" ry="18"/><ellipse cx="-28" cy="98" rx="40" ry="20"/></g>
+      <g class="fb-cloud c3"><ellipse cx="0" cy="300" rx="110" ry="22"/><ellipse cx="50" cy="284" rx="60" ry="24"/></g>
+    </g>
+    <path d="M0,520 C180,450 360,470 520,500 C700,535 860,440 1060,455 C1220,468 1330,500 1440,480 L1440,900 L0,900Z" fill="var(--scene-hill1)"/>
+    <path d="M0,575 C220,520 420,545 640,560 C860,575 1080,520 1440,545 L1440,900 L0,900Z" fill="var(--scene-hill2)"/>
+    <rect x="0" y="560" width="1440" height="340" fill="url(#fbFade)"/>
+    <g class="fb-rows" clip-path="url(#fbFieldClip)" stroke="var(--scene-row)" stroke-width="3" opacity=".9"><line x1="720" y1="560" x2="-960" y2="900"/><line x1="720" y1="560" x2="-840" y2="900"/><line x1="720" y1="560" x2="-720" y2="900"/><line x1="720" y1="560" x2="-600" y2="900"/><line x1="720" y1="560" x2="-480" y2="900"/><line x1="720" y1="560" x2="-360" y2="900"/><line x1="720" y1="560" x2="-240" y2="900"/><line x1="720" y1="560" x2="-120" y2="900"/><line x1="720" y1="560" x2="0" y2="900"/><line x1="720" y1="560" x2="120" y2="900"/><line x1="720" y1="560" x2="240" y2="900"/><line x1="720" y1="560" x2="360" y2="900"/><line x1="720" y1="560" x2="480" y2="900"/><line x1="720" y1="560" x2="600" y2="900"/><line x1="720" y1="560" x2="720" y2="900"/><line x1="720" y1="560" x2="840" y2="900"/><line x1="720" y1="560" x2="960" y2="900"/><line x1="720" y1="560" x2="1080" y2="900"/><line x1="720" y1="560" x2="1200" y2="900"/><line x1="720" y1="560" x2="1320" y2="900"/><line x1="720" y1="560" x2="1440" y2="900"/><line x1="720" y1="560" x2="1560" y2="900"/><line x1="720" y1="560" x2="1680" y2="900"/><line x1="720" y1="560" x2="1800" y2="900"/><line x1="720" y1="560" x2="1920" y2="900"/><line x1="720" y1="560" x2="2040" y2="900"/><line x1="720" y1="560" x2="2160" y2="900"/><line x1="720" y1="560" x2="2280" y2="900"/><line x1="720" y1="560" x2="2400" y2="900"/></g>
+    <g class="fb-farmer" transform="translate(905,598)" fill="var(--scene-stalk)">
+      <ellipse cx="0" cy="-58" rx="17" ry="5"/><circle cx="0" cy="-49" r="7"/>
+      <path d="M-7,-42 L7,-42 L9,-16 L-9,-16Z"/><path d="M-8,-16 L-11,6 L-6,6 L-2,-12 L2,-12 L6,6 L11,6 L8,-16Z"/>
+      <g class="fb-hoe"><path d="M5,-36 L32,-6" stroke="var(--scene-stalk)" stroke-width="3" stroke-linecap="round"/><path d="M29,-9 L37,-2 L33,2Z"/></g>
+    </g>
+    <g class="fb-stalk" style="animation-duration:8.3s;animation-delay:-3.6s"><path d="M30,900 Q27.5,804 25,709" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M30,827 q-35,-28 -63,-6 q28,-4 63,6z" fill="var(--scene-leaf)"/><path d="M30,795 q27,-28 49,-6 q-22,-4 -49,6z" fill="var(--scene-leaf)"/><path d="M30,762 q-31,-28 -57,-6 q26,-4 57,6z" fill="var(--scene-leaf)"/><path d="M30,736 q35,-28 64,-6 q-29,-4 -64,6z" fill="var(--scene-leaf)"/><path d="M25,709 l-6,-18 M25,709 l0,-22 M25,709 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:8.2s;animation-delay:-4.7s"><path d="M120,900 Q115.0,822 110,743" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M120,840 q-32,-28 -59,-6 q27,-4 59,6z" fill="var(--scene-leaf)"/><path d="M120,814 q26,-28 48,-6 q-22,-4 -48,6z" fill="var(--scene-leaf)"/><path d="M120,787 q-29,-28 -53,-6 q24,-4 53,6z" fill="var(--scene-leaf)"/><path d="M120,765 q26,-28 48,-6 q-22,-4 -48,6z" fill="var(--scene-leaf)"/><path d="M110,743 l-6,-18 M110,743 l0,-22 M110,743 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:6.8s;animation-delay:-1.0s"><path d="M215,900 Q211.5,790 208,680" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M215,816 q-36,-28 -66,-6 q30,-4 66,6z" fill="var(--scene-leaf)"/><path d="M215,779 q36,-28 66,-6 q-30,-4 -66,6z" fill="var(--scene-leaf)"/><path d="M215,742 q-35,-28 -64,-6 q29,-4 64,6z" fill="var(--scene-leaf)"/><path d="M215,711 q26,-28 47,-6 q-21,-4 -47,6z" fill="var(--scene-leaf)"/><path d="M208,680 l-6,-18 M208,680 l0,-22 M208,680 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:7.3s;animation-delay:-5.7s"><path d="M300,900 Q298.0,788 296,677" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M300,815 q-35,-28 -63,-6 q28,-4 63,6z" fill="var(--scene-leaf)"/><path d="M300,777 q28,-28 50,-6 q-22,-4 -50,6z" fill="var(--scene-leaf)"/><path d="M300,739 q-30,-28 -55,-6 q25,-4 55,6z" fill="var(--scene-leaf)"/><path d="M300,708 q32,-28 59,-6 q-27,-4 -59,6z" fill="var(--scene-leaf)"/><path d="M296,677 l-6,-18 M296,677 l0,-22 M296,677 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:7.1s;animation-delay:-2.6s"><path d="M395,900 Q392.5,816 390,732" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M395,836 q-35,-28 -64,-6 q29,-4 64,6z" fill="var(--scene-leaf)"/><path d="M395,808 q35,-28 64,-6 q-29,-4 -64,6z" fill="var(--scene-leaf)"/><path d="M395,779 q-36,-28 -66,-6 q30,-4 66,6z" fill="var(--scene-leaf)"/><path d="M395,756 q29,-28 52,-6 q-23,-4 -52,6z" fill="var(--scene-leaf)"/><path d="M390,732 l-6,-18 M390,732 l0,-22 M390,732 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:5.8s;animation-delay:-1.7s"><path d="M470,900 Q466.5,802 463,703" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M470,825 q-34,-28 -61,-6 q27,-4 61,6z" fill="var(--scene-leaf)"/><path d="M470,792 q37,-28 67,-6 q-30,-4 -67,6z" fill="var(--scene-leaf)"/><path d="M470,758 q-35,-28 -63,-6 q28,-4 63,6z" fill="var(--scene-leaf)"/><path d="M470,731 q32,-28 59,-6 q-27,-4 -59,6z" fill="var(--scene-leaf)"/><path d="M463,703 l-6,-18 M463,703 l0,-22 M463,703 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:6.9s;animation-delay:-0.5s"><path d="M1000,900 Q1004.0,805 1008,710" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1000,828 q-29,-28 -53,-6 q24,-4 53,6z" fill="var(--scene-leaf)"/><path d="M1000,796 q28,-28 51,-6 q-23,-4 -51,6z" fill="var(--scene-leaf)"/><path d="M1000,763 q-37,-28 -68,-6 q31,-4 68,6z" fill="var(--scene-leaf)"/><path d="M1000,737 q38,-28 70,-6 q-32,-4 -70,6z" fill="var(--scene-leaf)"/><path d="M1008,710 l-6,-18 M1008,710 l0,-22 M1008,710 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:5.7s;animation-delay:-4.2s"><path d="M1085,900 Q1089.5,810 1094,719" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1085,831 q-38,-28 -69,-6 q31,-4 69,6z" fill="var(--scene-leaf)"/><path d="M1085,800 q33,-28 60,-6 q-27,-4 -60,6z" fill="var(--scene-leaf)"/><path d="M1085,770 q-30,-28 -55,-6 q25,-4 55,6z" fill="var(--scene-leaf)"/><path d="M1085,744 q36,-28 65,-6 q-29,-4 -65,6z" fill="var(--scene-leaf)"/><path d="M1094,719 l-6,-18 M1094,719 l0,-22 M1094,719 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:5.9s;animation-delay:-3.5s"><path d="M1170,900 Q1173.0,820 1176,741" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1170,840 q-34,-28 -61,-6 q27,-4 61,6z" fill="var(--scene-leaf)"/><path d="M1170,813 q32,-28 59,-6 q-27,-4 -59,6z" fill="var(--scene-leaf)"/><path d="M1170,786 q-26,-28 -47,-6 q21,-4 47,6z" fill="var(--scene-leaf)"/><path d="M1170,763 q37,-28 67,-6 q-30,-4 -67,6z" fill="var(--scene-leaf)"/><path d="M1176,741 l-6,-18 M1176,741 l0,-22 M1176,741 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:7.8s;animation-delay:-2.6s"><path d="M1250,900 Q1254.5,820 1259,741" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1250,840 q-37,-28 -68,-6 q31,-4 68,6z" fill="var(--scene-leaf)"/><path d="M1250,813 q31,-28 57,-6 q-26,-4 -57,6z" fill="var(--scene-leaf)"/><path d="M1250,786 q-36,-28 -65,-6 q29,-4 65,6z" fill="var(--scene-leaf)"/><path d="M1250,763 q34,-28 61,-6 q-27,-4 -61,6z" fill="var(--scene-leaf)"/><path d="M1259,741 l-6,-18 M1259,741 l0,-22 M1259,741 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:7.9s;animation-delay:-5.6s"><path d="M1330,900 Q1326.0,788 1322,676" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1330,815 q-34,-28 -61,-6 q27,-4 61,6z" fill="var(--scene-leaf)"/><path d="M1330,777 q37,-28 68,-6 q-31,-4 -68,6z" fill="var(--scene-leaf)"/><path d="M1330,739 q-37,-28 -67,-6 q30,-4 67,6z" fill="var(--scene-leaf)"/><path d="M1330,707 q26,-28 48,-6 q-22,-4 -48,6z" fill="var(--scene-leaf)"/><path d="M1322,676 l-6,-18 M1322,676 l0,-22 M1322,676 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g><g class="fb-stalk" style="animation-duration:7.7s;animation-delay:-4.1s"><path d="M1410,900 Q1414.0,822 1418,743" stroke="var(--scene-stalk)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1410,840 q-37,-28 -68,-6 q31,-4 68,6z" fill="var(--scene-leaf)"/><path d="M1410,814 q32,-28 58,-6 q-26,-4 -58,6z" fill="var(--scene-leaf)"/><path d="M1410,787 q-37,-28 -67,-6 q30,-4 67,6z" fill="var(--scene-leaf)"/><path d="M1410,765 q31,-28 57,-6 q-26,-4 -57,6z" fill="var(--scene-leaf)"/><path d="M1418,743 l-6,-18 M1418,743 l0,-22 M1418,743 l7,-17" stroke="var(--scene-tassel)" stroke-width="3" stroke-linecap="round"/></g>
+  </svg>
+</div>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
 :root {
-  --bg:#f5f7f2;--bg2:#ffffff;--bg3:#eef1eb;--fg:#1a2210;--fg2:#4a5c38;--fg3:#7a8f68;
-  --accent:#3a7d44;--accent2:#2d6235;--accent-light:#d4edda;
-  --warn:#e67e22;--warn-light:#fdf0e0;--danger:#c0392b;--danger-light:#fdecea;
-  --info:#2980b9;--info-light:#d6eaf8;--border:#d8e4cc;
-  --shadow:0 2px 12px rgba(58,125,68,.10);--shadow-lg:0 8px 32px rgba(58,125,68,.14);
-  --radius:14px;--radius-sm:8px;--nav-h:62px;--bnav-h:64px;color-scheme:light;
+  --bg:#f6f1e6;--bg2:#fffdf8;--bg3:#efe8d8;--fg:#1e2a18;--fg2:#3c4a30;--fg3:#535d47;
+  --accent:#2a6135;--accent2:#24552d;--accent-light:#dcead7;--accent-solid:#2e6a39;--accent-deep:#1d4424;
+  --earth:#8c4519;--earth-light:#f4e6d6;--wheat:#e9c97c;--cream:#fbf6ea;
+  --warn:#8a5300;--warn-light:#fbefd9;--danger:#b03224;--danger-light:#fbe9e6;
+  --info:#1d5f8a;--info-light:#dcecf7;--border:#e0d6c1;--focus:#8c4519;
+  --shadow:0 1px 2px rgba(46,58,30,.06),0 4px 16px rgba(46,58,30,.07);--shadow-lg:0 12px 36px rgba(46,58,30,.16);
+  --scene-sun:#f3d9a0;--scene-cloud:#ffffff;--scene-hill1:#dfe3c6;--scene-hill2:#cbd8b0;--scene-field:#d9cfa8;--scene-row:#bfb187;--scene-stalk:#7d9a5a;--scene-leaf:#94b06d;--scene-tassel:#d4b467;
+  --panel:rgba(246,241,230,.80);
+  --radius:16px;--radius-sm:10px;--nav-h:64px;--bnav-h:64px;color-scheme:light;
 }
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#131a0e;--bg2:#1e2a16;--bg3:#273320;--fg:#e8f0e0;--fg2:#b0c89a;--fg3:#7a9468;
-  --accent:#4caf60;--accent2:#3d9a50;--accent-light:#1a3020;
-  --warn:#f0a040;--warn-light:#2a1e0a;--danger:#e05040;--danger-light:#2a1010;
-  --info:#4a9fd0;--info-light:#0e1e2a;--border:#2e3d24;
-  --shadow:0 2px 12px rgba(0,0,0,.30);--shadow-lg:0 8px 32px rgba(0,0,0,.40);color-scheme:dark;
+  --bg:#11170e;--bg2:#1a2315;--bg3:#24301d;--fg:#ecf1e4;--fg2:#c3d2b1;--fg3:#9aab88;
+  --accent:#7fc58a;--accent2:#95d29e;--accent-light:#1f3320;--accent-solid:#2f7a3d;--accent-deep:#1f4f28;
+  --earth:#e0a06b;--earth-light:#2c2116;--wheat:#e9c97c;--cream:#fbf6ea;
+  --warn:#f0a040;--warn-light:#2a1e0a;--danger:#ef7a6c;--danger-light:#2e1411;
+  --info:#7cbbe6;--info-light:#0e1e2a;--border:#2f3d26;--focus:#e9c97c;
+  --shadow:0 2px 12px rgba(0,0,0,.30);--shadow-lg:0 12px 36px rgba(0,0,0,.45);
+  --scene-sun:#3a3a22;--scene-cloud:#26301f;--scene-hill1:#1b2615;--scene-hill2:#203019;--scene-field:#232c18;--scene-row:#2d3a1f;--scene-stalk:#3e5a2c;--scene-leaf:#4b6b35;--scene-tassel:#6b5d30;
+  --panel:rgba(17,23,14,.80);color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --bg:#131a0e;--bg2:#1e2a16;--bg3:#273320;--fg:#e8f0e0;--fg2:#b0c89a;--fg3:#7a9468;
-  --accent:#4caf60;--accent2:#3d9a50;--accent-light:#1a3020;
-  --warn:#f0a040;--warn-light:#2a1e0a;--danger:#e05040;--danger-light:#2a1010;
-  --info:#4a9fd0;--info-light:#0e1e2a;--border:#2e3d24;
-  --shadow:0 2px 12px rgba(0,0,0,.30);--shadow-lg:0 8px 32px rgba(0,0,0,.40);color-scheme:dark;
+  --bg:#11170e;--bg2:#1a2315;--bg3:#24301d;--fg:#ecf1e4;--fg2:#c3d2b1;--fg3:#9aab88;
+  --accent:#7fc58a;--accent2:#95d29e;--accent-light:#1f3320;--accent-solid:#2f7a3d;--accent-deep:#1f4f28;
+  --earth:#e0a06b;--earth-light:#2c2116;--wheat:#e9c97c;--cream:#fbf6ea;
+  --warn:#f0a040;--warn-light:#2a1e0a;--danger:#ef7a6c;--danger-light:#2e1411;
+  --info:#7cbbe6;--info-light:#0e1e2a;--border:#2f3d26;--focus:#e9c97c;
+  --shadow:0 2px 12px rgba(0,0,0,.30);--shadow-lg:0 12px 36px rgba(0,0,0,.45);
+  --scene-sun:#3a3a22;--scene-cloud:#26301f;--scene-hill1:#1b2615;--scene-hill2:#203019;--scene-field:#232c18;--scene-row:#2d3a1f;--scene-stalk:#3e5a2c;--scene-leaf:#4b6b35;--scene-tassel:#6b5d30;
+  --panel:rgba(17,23,14,.80);color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh;overflow-x:hidden}
@@ -354,6 +387,140 @@ select.form-input{cursor:pointer}
 .admin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .sold-tag{position:absolute;top:8px;left:8px;background:var(--danger);color:#fff;font-size:.7rem;font-weight:800;padding:2px 8px;border-radius:99px;z-index:1}
 .product-card{position:relative}
+.product-link{display:block;width:100%;background:none;border:none;padding:0;text-align:left;font-family:inherit;cursor:pointer}
+.product-link:hover{color:var(--accent)}
+.product-card:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
+
+/* ===================== GREENFIELD v2 DESIGN LAYER ===================== */
+body{line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.page-title,.hero-title,.about-h2{font-family:'Lora',Georgia,serif}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.skip-link{position:absolute;left:12px;top:-60px;z-index:1000;background:var(--accent-solid);color:#fff;padding:10px 16px;border-radius:var(--radius-sm);font-weight:700;transition:top .2s}
+.skip-link:focus{top:12px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* animated field background */
+.field-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.field-bg svg{position:absolute;left:0;bottom:0;width:100%;height:100%}
+.top-nav,.page,.site-footer,.bnav{position:relative;z-index:1}
+.top-nav{position:sticky;z-index:100;background:color-mix(in srgb,var(--bg2) 92%,transparent);backdrop-filter:saturate(1.2) blur(8px);-webkit-backdrop-filter:saturate(1.2) blur(8px)}
+.bnav{position:fixed;z-index:100}
+.fb-cloud{animation:fbDrift linear infinite}
+.fb-cloud.c1{animation-duration:140s;animation-delay:-40s}
+.fb-cloud.c2{animation-duration:190s;animation-delay:-120s}
+.fb-cloud.c3{animation-duration:165s;animation-delay:-10s}
+@keyframes fbDrift{from{transform:translateX(-320px)}to{transform:translateX(1760px)}}
+.fb-stalk{transform-box:fill-box;transform-origin:50% 100%;animation:fbSway ease-in-out infinite alternate}
+@keyframes fbSway{from{transform:rotate(-2.2deg)}to{transform:rotate(2.4deg)}}
+.fb-rows{animation:fbShimmer 9s ease-in-out infinite alternate}
+@keyframes fbShimmer{from{opacity:.75}to{opacity:1}}
+.fb-farmer{transform-box:fill-box;transform-origin:50% 100%}
+.fb-hoe{transform-box:fill-box;transform-origin:10% 10%;animation:fbHoe 3.2s ease-in-out infinite}
+@keyframes fbHoe{0%,100%{transform:rotate(0)}45%{transform:rotate(-16deg)}60%{transform:rotate(4deg)}}
+html[data-motion="off"] .field-bg *{animation-play-state:paused!important}
+.motion-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg2);color:var(--fg);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.motion-btn:hover{background:var(--bg3)}
+.theme-btn{height:36px;border-radius:50%;width:36px;padding:0;display:flex;align-items:center;justify-content:center}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important}
+  .skeleton,.modal,.toast,.nav-tabs{animation:none!important}
+}
+
+/* layout: readable column with a soft panel over the scene */
+.page{max-width:1120px;margin:0 auto;background:var(--panel);padding:28px 20px 32px}
+@media(min-width:701px){.page{padding:36px 32px 40px;margin-top:20px;border-radius:24px;margin-bottom:24px;min-height:auto}}
+@media(max-width:700px){.page{padding-bottom:24px}
+  :root:not([data-theme="dark"]){--panel:rgba(246,241,230,.74)}}
+.page-title{font-size:clamp(1.55rem,1.25rem + 1.2vw,2.1rem);font-weight:600;letter-spacing:-.01em;line-height:1.2;margin-bottom:6px}
+.page-sub{color:var(--fg3);font-size:.95rem;margin-bottom:24px;max-width:60ch}
+.section-title{font-size:1.05rem;font-weight:700}
+.card{border-radius:var(--radius);padding:22px}
+.card+.card{margin-top:14px}
+
+/* buttons: consistent sizes, 44px touch targets */
+.btn{min-height:44px;padding:10px 20px;border-radius:var(--radius-sm);font-weight:700;letter-spacing:.01em;text-decoration:none}
+.btn-sm{min-height:36px;padding:6px 14px}
+.btn-primary{background:var(--accent-solid);color:#fff}
+.btn-primary:hover{background:var(--accent-deep)}
+.btn-secondary{background:var(--bg2);color:var(--fg);border:1.5px solid var(--border)}
+.btn-secondary:hover{background:var(--bg3);border-color:var(--accent)}
+.link-btn{font-size:.85rem;padding:4px 2px;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:text-decoration-color .2s}
+.link-btn:hover{text-decoration-color:currentColor}
+.acct-btn.signed-in,.profile-avatar,.nav-brand-icon{background:var(--accent-solid)}
+.nav-brand{font-family:'Lora',Georgia,serif;font-weight:600;font-size:1.2rem;color:var(--fg)}
+.nav-brand-icon{border-radius:10px;color:#fff}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
+
+/* home */
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:34px 26px 30px;margin-bottom:22px;color:var(--cream);background:radial-gradient(120% 140% at 100% 0%,#3d7e47 0%,transparent 55%),linear-gradient(140deg,#2e6a39 0%,#1d4424 100%);box-shadow:var(--shadow-lg)}
+.hero::after{content:"";position:absolute;right:-30px;bottom:-40px;width:260px;height:180px;background:repeating-linear-gradient(-28deg,rgba(233,201,124,.18) 0 3px,transparent 3px 18px);border-radius:50%;pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--wheat);margin-bottom:10px}
+.hero-title{font-size:clamp(2rem,1.5rem + 2.6vw,3.1rem);font-weight:600;line-height:1.08;letter-spacing:-.015em;margin-bottom:10px;color:#fff}
+.hero-tagline{font-family:'Lora',Georgia,serif;font-style:italic;font-size:clamp(1.02rem,.95rem + .4vw,1.2rem);color:#e8efd9;margin-bottom:12px}
+.hero-intro{font-size:.97rem;max-width:58ch;color:#eef2e4;margin-bottom:22px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;position:relative;z-index:1}
+.btn-cream{background:var(--cream);color:#1d4424}
+.btn-cream:hover{background:#fff;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(251,246,234,.6)}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;position:relative;z-index:1}
+.hero-pill{font-size:.78rem;font-weight:600;padding:5px 12px;border-radius:99px;background:rgba(251,246,234,.12);border:1px solid rgba(251,246,234,.25);color:#f3f6ea}
+.tip-card{background:var(--earth-light);color:var(--fg);border-left:5px solid var(--earth);box-shadow:none}
+.tip-label{color:var(--earth);opacity:1}
+.tip-text{font-size:1.02rem}
+.stat-num{font-family:'Lora',Georgia,serif;font-weight:600;font-size:1.9rem}
+.stat-label{font-size:.75rem;letter-spacing:.02em}
+.qa-btn{min-height:110px;font-size:.92rem;color:var(--fg)}
+.qa-btn:hover{color:var(--accent)}
+@media(min-width:900px){.quick-actions{grid-template-columns:repeat(4,1fr)}}
+.home-grid{display:grid;gap:20px}
+@media(min-width:900px){.home-grid{grid-template-columns:1fr 1fr;align-items:start}.home-grid>div{margin-bottom:0!important}}
+
+/* about page */
+.about-lead{font-size:1.05rem;color:var(--fg2);max-width:65ch;margin-bottom:8px}
+.about-nav{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 8px}
+.about-nav a{font-size:.82rem;font-weight:700;padding:7px 14px;border-radius:99px;background:var(--bg2);border:1.5px solid var(--border);color:var(--fg2)}
+.about-nav a:hover{border-color:var(--accent);color:var(--accent)}
+.about-section{padding-top:34px;scroll-margin-top:calc(var(--nav-h) + 12px)}
+.about-kicker{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--earth);margin-bottom:4px}
+.about-h2{font-size:clamp(1.3rem,1.1rem + .8vw,1.65rem);font-weight:600;margin-bottom:12px;color:var(--fg)}
+.about-section p{color:var(--fg2);max-width:70ch}
+.about-section p+p{margin-top:10px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
+.fact{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+.fact dt{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--fg3);margin-bottom:4px}
+.fact dd{font-weight:600;color:var(--fg)}
+.objective-main{background:var(--bg2);border:1px solid var(--border);border-left:5px solid var(--accent-solid);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:14px;color:var(--fg)}
+.obj-list{list-style:none;display:grid;gap:10px;counter-reset:obj}
+.obj-list li{counter-increment:obj;display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;color:var(--fg2)}
+.obj-list li::before{content:counter(obj);flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center}
+.steps{list-style:none;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));counter-reset:step}
+.step{counter-increment:step;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 18px;position:relative}
+.step::before{content:"Step " counter(step);display:block;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--earth);margin-bottom:8px}
+.step-icon{font-size:1.8rem;margin-bottom:6px}
+.step h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;margin-bottom:6px;color:var(--fg)}
+.step p{font-size:.88rem;color:var(--fg2)}
+.step .link-btn{margin-top:10px}
+.benefits{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.benefit{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.benefit h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:.98rem;font-weight:700;margin-bottom:8px;color:var(--fg);display:flex;gap:8px;align-items:center}
+.benefit ul{padding-left:18px;color:var(--fg2);font-size:.9rem;display:grid;gap:4px}
+.note{background:var(--warn-light);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);color:var(--fg);border-radius:var(--radius-sm);padding:12px 14px;font-size:.88rem;margin-top:14px}
+.ref-list{padding-left:20px;display:grid;gap:8px;color:var(--fg2);font-size:.92rem}
+.ref-list a{text-decoration:underline;text-underline-offset:2px}
+.placeholder{border:2px dashed var(--earth);background:var(--earth-light);color:var(--fg);border-radius:var(--radius-sm);padding:12px 14px;font-size:.9rem;position:relative}
+.placeholder::before{content:"✎ To fill in";display:block;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--earth);margin-bottom:4px}
+span.placeholder{display:inline-block;padding:2px 8px;font-size:.85rem}
+span.placeholder::before{display:none}
+.about-cta{margin-top:34px;text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:26px 18px}
+.about-cta h2{font-size:1.3rem;margin-bottom:6px}
+.about-cta p{color:var(--fg2);margin-bottom:16px}
+
+/* footer */
+.site-footer{max-width:1120px;margin:0 auto;padding:22px 20px 28px;font-size:.82rem;color:var(--fg2);display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;align-items:center}
+.site-footer .footer-inner{background:var(--panel);border-radius:14px;padding:12px 16px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;width:100%;justify-content:space-between}
+.site-footer a,.site-footer .link-btn{color:var(--accent);font-weight:600;font-size:.82rem}
+@media(max-width:700px){.site-footer{padding-bottom:calc(var(--bnav-h) + 20px + env(safe-area-inset-bottom,0px))}}
 </style>
 
 <!-- TOP NAV -->
@@ -370,11 +537,13 @@ select.form-input{cursor:pointer}
       <button class="nav-tab" role="menuitem" onclick="navGo('weather',this)">🌤 Weather</button>
       <button class="nav-tab" role="menuitem" onclick="navGo('market',this)">🛒 Marketplace</button>
       <button class="nav-tab" role="menuitem" onclick="navGo('notif',this)" id="notif-nav-tab">🔔 Alerts<span class="nav-badge" id="notif-badge" hidden></span></button>
+      <button class="nav-tab nav-extra" role="menuitem" data-page="about" onclick="navGo('about',this)">ℹ️ About the project</button>
       <div class="nav-sep" role="separator"></div>
       <button class="nav-tab nav-extra" role="menuitem" data-page="profile" onclick="closeNavMenu();onAccountClick()">👤 Account</button>
       <button class="nav-tab nav-extra" role="menuitem" data-page="admin" id="nav-admin-item" onclick="navGo('admin',this)" hidden>🛡 Admin Panel</button>
     </div>
   </div>
+  <button class="motion-btn" id="motion-btn" onclick="toggleMotion()" aria-pressed="false" aria-label="Pause background animation" title="Pause background animation"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect x="2.5" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="8.5" y="2" width="3" height="10" rx="1" fill="currentColor"/></svg></button>
   <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle dark/light mode" title="Toggle theme">🌙</button>
   <button class="acct-btn" id="acct-btn" onclick="onAccountClick()" aria-label="Account" title="Account">👤</button>
 </nav>
@@ -383,9 +552,20 @@ select.form-input{cursor:pointer}
 <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
 <!-- HOME PAGE -->
-<main class="page active" id="page-home" role="main" aria-label="Home dashboard">
-  <h1 class="page-title">GreenField</h1>
-  <p class="page-sub">Digital agricultural extension for farmers in Ogun State and beyond</p>
+<main class="page active" id="page-home" tabindex="-1" aria-label="Home dashboard">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-eyebrow"><span aria-hidden="true">🌱</span>Final-year project · Digital agricultural extension</div>
+    <h1 class="hero-title" id="hero-title">GreenField</h1>
+    <p class="hero-tagline">Soil, weather and market information for farmers, in one place.</p>
+    <p class="hero-intro">GreenField is a web app that helps farmers in Ogun State estimate their soil's nutrient status and crop suitability, follow weather-based farming advice, and sell produce directly to buyers. It runs in any phone browser and can be installed without an app store.</p>
+    <div class="hero-actions">
+      <button class="btn btn-cream" onclick="showPage('soil')">🧪 Analyze your soil</button>
+      <button class="btn btn-ghost" onclick="showPage('about')">About the project →</button>
+    </div>
+    <div class="hero-pills" aria-label="Main features">
+      <span class="hero-pill">Soil assessment</span><span class="hero-pill">7-day weather advice</span><span class="hero-pill">Farm produce marketplace</span><span class="hero-pill">Works offline</span>
+    </div>
+  </section>
 
   <div class="stats-grid" id="home-stats">
     <div class="stat-card"><div class="stat-num" id="stat-analyses">0</div><div class="stat-label">Your Analyses</div></div>
@@ -399,7 +579,7 @@ select.form-input{cursor:pointer}
   </div>
 
   <div class="home-weather-snap card" id="home-weather-snap" aria-label="Current weather">
-    <div class="section-header"><span class="section-title">📍 Current Weather</span><button class="link-btn" onclick="showPage('weather')">Full forecast →</button></div>
+    <div class="section-header"><h2 class="section-title">📍 Current Weather</h2><button class="link-btn" onclick="showPage('weather')">Full forecast →</button></div>
     <div id="hws-loading" class="skeleton" style="height:60px;border-radius:8px"></div>
     <div id="hws-content" style="display:none">
       <div class="hws-inner">
@@ -415,7 +595,7 @@ select.form-input{cursor:pointer}
   </div>
 
   <div style="margin-bottom:20px">
-    <div class="section-header"><span class="section-title">⚡ Quick Actions</span></div>
+    <div class="section-header"><h2 class="section-title">⚡ Quick Actions</h2></div>
     <div class="quick-actions">
       <button class="qa-btn" onclick="showPage('soil')" aria-label="Analyze soil"><span class="qa-icon">🧪</span>Analyze Soil</button>
       <button class="qa-btn" onclick="showPage('weather')" aria-label="Check weather"><span class="qa-icon">🌤</span>Check Weather</button>
@@ -424,19 +604,21 @@ select.form-input{cursor:pointer}
     </div>
   </div>
 
+  <div class="home-grid">
   <div style="margin-bottom:20px">
-    <div class="section-header"><span class="section-title">🧪 Recent Soil Analyses</span><button class="link-btn" onclick="showPage('soil')">View all →</button></div>
+    <div class="section-header"><h2 class="section-title">🧪 Recent Soil Analyses</h2><button class="link-btn" onclick="showPage('soil')">View all →</button></div>
     <div id="home-recent-soil"><div class="empty-state" style="padding:24px"><div class="es-icon">🧪</div><div class="es-msg">No analyses yet. <button class="link-btn" onclick="showPage('soil')">Analyze your first soil →</button></div></div></div>
   </div>
 
   <div>
-    <div class="section-header"><span class="section-title">🛒 Recent Listings</span><button class="link-btn" onclick="showPage('market')">See all →</button></div>
+    <div class="section-header"><h2 class="section-title">🛒 Recent Listings</h2><button class="link-btn" onclick="showPage('market')">See all →</button></div>
     <div id="home-recent-market"><div style="font-size:.85rem;color:var(--fg3)">Loading…</div></div>
+  </div>
   </div>
 </main>
 
 <!-- SOIL PAGE -->
-<main class="page" id="page-soil" aria-label="Soil Analyzer">
+<main class="page" id="page-soil" tabindex="-1" aria-label="Soil Analyzer">
   <h1 class="page-title">Soil Analyzer</h1>
   <p class="page-sub">Select soil characteristics to get estimated nutrient profile and crop recommendations</p>
 
@@ -530,13 +712,13 @@ select.form-input{cursor:pointer}
   </div>
 
   <div style="margin-top:20px">
-    <div class="section-header"><span class="section-title">📂 Recent Analyses</span><button class="link-btn" onclick="renderSoilHistory()">Refresh</button></div>
+    <div class="section-header"><h2 class="section-title">📂 Recent Analyses</h2><button class="link-btn" onclick="renderSoilHistory()">Refresh</button></div>
     <div id="soil-history-list"></div>
   </div>
 </main>
 
 <!-- WEATHER PAGE -->
-<main class="page" id="page-weather" aria-label="Agricultural Weather">
+<main class="page" id="page-weather" tabindex="-1" aria-label="Agricultural Weather">
   <h1 class="page-title">Agricultural Weather</h1>
   <p class="page-sub">Live 7-day forecast with agricultural decision support</p>
 
@@ -601,7 +783,7 @@ select.form-input{cursor:pointer}
 </main>
 
 <!-- MARKETPLACE PAGE -->
-<main class="page" id="page-market" aria-label="Farm Marketplace">
+<main class="page" id="page-market" tabindex="-1" aria-label="Farm Marketplace">
   <h1 class="page-title">Farm Marketplace</h1>
   <p class="page-sub">Buy and sell fresh produce, inputs, and farm products</p>
 
@@ -651,7 +833,7 @@ select.form-input{cursor:pointer}
 </main>
 
 <!-- NOTIFICATIONS PAGE -->
-<main class="page" id="page-notif" aria-label="Alerts and notifications">
+<main class="page" id="page-notif" tabindex="-1" aria-label="Alerts and notifications">
   <h1 class="page-title">Alerts</h1>
   <p class="page-sub">Agricultural reminders and system notifications</p>
   <div class="notif-header-actions">
@@ -662,15 +844,95 @@ select.form-input{cursor:pointer}
 </main>
 
 
+
+<!-- ABOUT PAGE -->
+<main class="page" id="page-about" tabindex="-1" aria-labelledby="about-title">
+  <div class="about-kicker">About the project</div>
+  <h1 class="page-title" id="about-title">GreenField: a digital agricultural extension platform</h1>
+  <p class="about-lead">GreenField brings three kinds of information farmers rely on, soil, weather and markets, into one simple web app.</p>
+  <nav class="about-nav" aria-label="On this page">
+    <a href="#about-problem">The problem</a><a href="#about-solution">Our solution</a><a href="#about-how">How it works</a><a href="#about-benefits">Benefits</a><a href="#about-sources">Sources</a>
+  </nav>
+
+  <section class="about-section" aria-labelledby="about-details-h">
+    <h2 class="sr-only" id="about-details-h">Project details</h2>
+    <dl class="facts">
+      <div class="fact"><dt>Student</dt><dd><span class="placeholder">Your full name</span></dd></div>
+      <div class="fact"><dt>Department</dt><dd><span class="placeholder">Department / programme</span></dd></div>
+      <div class="fact"><dt>Supervisor</dt><dd><span class="placeholder">Supervisor's name</span></dd></div>
+      <div class="fact"><dt>Session</dt><dd><span class="placeholder">e.g. 2026/2027</span></dd></div>
+    </dl>
+  </section>
+
+  <section class="about-section" id="about-problem" aria-labelledby="about-problem-h">
+    <div class="about-kicker">01 · The problem</div>
+    <h2 class="about-h2" id="about-problem-h">What problem does GreenField address?</h2>
+    <div class="placeholder">Summarise your problem statement from Chapter One (section 1.2) in 2–4 sentences: who is affected, what information they lack, and why it matters in your study area. Add a citation for any statistic.</div>
+  </section>
+
+  <section class="about-section" id="about-solution" aria-labelledby="about-solution-h">
+    <div class="about-kicker">02 · Our solution</div>
+    <h2 class="about-h2" id="about-solution-h">Objectives of the study</h2>
+    <div class="objective-main"><strong>Main objective:</strong> to develop GreenField, a digital agricultural extension platform for improving farmers’ access to soil, weather, and market information.</div>
+    <p style="margin-bottom:10px">The specific objectives are to:</p>
+    <ol class="obj-list">
+      <li>Design and build a soil assessment module capable of estimating soil type and crop suitability from soil characteristics that farmers can observe, such as colour, texture, and drainage.</li>
+      <li>Develop a digital interface that delivers localised weather forecasts alongside actionable crop advisory and farm management practices.</li>
+      <li>Integrate a marketplace module that bridges the gap between farmers, buyers, and other agricultural actors for direct trade and communication.</li>
+      <li>Evaluate the usability and effectiveness of the system within a rural extension framework.</li>
+    </ol>
+  </section>
+
+  <section class="about-section" id="about-how" aria-labelledby="about-how-h">
+    <div class="about-kicker">03 · How it works</div>
+    <h2 class="about-h2" id="about-how-h">Three tools, one app</h2>
+    <ol class="steps">
+      <li class="step"><div class="step-icon" aria-hidden="true">🧪</div><h3>Assess your soil</h3><p>Choose your soil's colour and texture, and optionally add a photo and field notes. GreenField returns estimated pH, N, P, K and organic carbon levels, suitable crops, and fertilizer and management advice.</p><button class="link-btn" onclick="showPage('soil')">Open Soil Analyzer →</button></li>
+      <li class="step"><div class="step-icon" aria-hidden="true">🌤</div><h3>Plan with the weather</h3><p>Pick a location in Ogun State or nearby. The app shows a 7-day forecast from Open-Meteo, with rule-based advice on planting, spraying, irrigation and harvesting.</p><button class="link-btn" onclick="showPage('weather')">Open Weather →</button></li>
+      <li class="step"><div class="step-icon" aria-hidden="true">🛒</div><h3>Buy and sell produce</h3><p>Farmers sign in and post produce with a photo, price and location. Buyers search and filter the listings, and contact the seller directly on WhatsApp.</p><button class="link-btn" onclick="showPage('market')">Open Marketplace →</button></li>
+      <li class="step"><div class="step-icon" aria-hidden="true">📲</div><h3>Install and stay updated</h3><p>Add GreenField to your phone's home screen from the browser. Saved soil analyses follow your account, and announcements appear in Alerts.</p><button class="link-btn" onclick="showPage('notif')">Open Alerts →</button></li>
+    </ol>
+  </section>
+
+  <section class="about-section" id="about-benefits" aria-labelledby="about-benefits-h">
+    <div class="about-kicker">04 · Benefits</div>
+    <h2 class="about-h2" id="about-benefits-h">Who it helps</h2>
+    <div class="benefits">
+      <div class="benefit"><h3><span aria-hidden="true">👩🏾‍🌾</span>Farmers</h3><ul><li>A quick first look at soil fertility and crop suitability</li><li>Weather advice in plain language, tied to farm tasks</li><li>A place to advertise produce and reach buyers directly</li></ul></div>
+      <div class="benefit"><h3><span aria-hidden="true">🧺</span>Buyers</h3><ul><li>Browse produce by category, price and location</li><li>Contact sellers on WhatsApp in one tap</li><li>Save listings to compare later</li></ul></div>
+      <div class="benefit"><h3><span aria-hidden="true">📣</span>Extension workers</h3><ul><li>Send announcements to every user from the admin panel</li><li>A shared tool to support farm visits and advice</li><li>Moderate marketplace listings</li></ul></div>
+    </div>
+    <div class="note"><strong>Scope and limitations:</strong> soil results are estimates based on what can be seen and felt in the field. They do not replace laboratory soil testing. Weather advice depends on the forecast data, which can change.</div>
+  </section>
+
+  <section class="about-section" id="about-sources" aria-labelledby="about-sources-h">
+    <div class="about-kicker">05 · Sources</div>
+    <h2 class="about-h2" id="about-sources-h">Data sources and references</h2>
+    <p style="margin-bottom:10px"><strong>Services used by the app</strong></p>
+    <ul class="ref-list" style="margin-bottom:18px">
+      <li>Weather forecasts: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> weather API</li>
+      <li>Accounts and database: <a href="https://firebase.google.com/" target="_blank" rel="noopener">Google Firebase</a> (Authentication and Cloud Firestore)</li>
+    </ul>
+    <p style="margin-bottom:10px"><strong>References</strong></p>
+    <div class="placeholder">Add the key references from your Chapters One to Three in APA style, including the sources behind the soil colour/texture lookup tables and crop recommendations. Keep within your supervisor's date limit.</div>
+  </section>
+
+  <div class="about-cta">
+    <h2>Try GreenField</h2>
+    <p>Start with a soil assessment. It takes about a minute.</p>
+    <button class="btn btn-primary" onclick="showPage('soil')">🧪 Analyze your soil</button>
+  </div>
+</main>
+
 <!-- PROFILE PAGE -->
-<main class="page" id="page-profile" aria-label="Your account">
+<main class="page" id="page-profile" tabindex="-1" aria-label="Your account">
   <h1 class="page-title">Account</h1>
   <p class="page-sub">Your profile, listings and settings</p>
   <div id="profile-content"></div>
 </main>
 
 <!-- ADMIN PAGE -->
-<main class="page" id="page-admin" aria-label="Admin panel">
+<main class="page" id="page-admin" tabindex="-1" aria-label="Admin panel">
   <h1 class="page-title">Admin Panel</h1>
   <p class="page-sub">Moderate listings and send announcements to all users</p>
   <div class="admin-stats">
@@ -696,6 +958,13 @@ select.form-input{cursor:pointer}
     <div id="admin-listing-list"></div>
   </div>
 </main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <span><strong>GreenField</strong> · Student final-year project · Soil results are estimates and do not replace laboratory testing.</span>
+    <span><button class="link-btn" onclick="showPage('about')">About the project</button> · Weather data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></span>
+  </div>
+</footer>
 
 <!-- BOTTOM NAV (mobile) -->
 <nav class="bnav" aria-label="Mobile navigation">
@@ -1069,7 +1338,34 @@ function levelLabel(l) {
 // NAVIGATION
 // ============================================================
 var pageOrder = ['home','soil','weather','market','notif'];
-var PAGE_LABELS = {home:'Home', soil:'Soil Analyzer', weather:'Weather', market:'Marketplace', notif:'Alerts', profile:'Account', admin:'Admin Panel'};
+var PAGE_LABELS = {about:'About', home:'Home', soil:'Soil Analyzer', weather:'Weather', market:'Marketplace', notif:'Alerts', profile:'Account', admin:'Admin Panel'};
+function skipToMain(e) {
+  e.preventDefault();
+  var pg = document.querySelector('.page.active');
+  if (pg) pg.focus();
+}
+function applyMotion(on) {
+  document.documentElement.setAttribute('data-motion', on ? 'on' : 'off');
+  var b = document.getElementById('motion-btn');
+  if (!b) return;
+  b.innerHTML = on ? '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect x="2.5" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="8.5" y="2" width="3" height="10" rx="1" fill="currentColor"/></svg>' : '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M4 2.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L4.9 1.7a.6.6 0 0 0-.9.5z" fill="currentColor"/></svg>';
+  b.setAttribute('aria-pressed', on ? 'false' : 'true');
+  var lbl = on ? 'Pause background animation' : 'Play background animation';
+  b.setAttribute('aria-label', lbl); b.title = lbl;
+}
+function toggleMotion() {
+  var on = document.documentElement.getAttribute('data-motion') !== 'on';
+  try { localStorage.setItem('greenfield_motion', on ? 'on' : 'off'); } catch(e) {}
+  applyMotion(on);
+}
+(function initMotion(){
+  var saved = null;
+  try { saved = localStorage.getItem('greenfield_motion'); } catch(e) {}
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var on = saved ? saved === 'on' : !reduce;
+  document.documentElement.setAttribute('data-motion', on ? 'on' : 'off');
+  document.addEventListener('DOMContentLoaded', function(){ applyMotion(on); });
+})();
 function toggleNavMenu(e) {
   if (e) e.stopPropagation();
   var m = document.getElementById('nav-menu');
@@ -1709,11 +2005,11 @@ function renderProducts() {
       ? '<img src="'+img+'" class="product-img" alt="'+sanitize(p.name)+'" loading="lazy">'
       : '<div class="product-img-placeholder" aria-label="No image">'+safeIcon(p.icon)+'</div>';
     if (p.availability === 'Sold') imgHtml = '<span class="sold-tag">SOLD</span>' + imgHtml;
-    return '<div class="product-card" onclick="viewProduct(\''+p.id+'\')" tabindex="0" role="button" aria-label="View '+sanitize(p.name)+'">'
+    return '<div class="product-card" onclick="viewProduct(\''+p.id+'\')">'
       +imgHtml
       +'<button class="fav-btn'+(isFav?' active':'')+'" onclick="event.stopPropagation();toggleFavorite(\''+p.id+'\')" aria-label="'+(isFav?'Remove from':'Add to')+' saved" aria-pressed="'+(isFav?'true':'false')+'">'
       +(isFav?'❤️':'🤍')+'</button>'
-      +'<div class="product-body"><div class="product-name">'+sanitize(p.name)+'</div>'
+      +'<div class="product-body"><button type="button" class="product-name product-link" onclick="event.stopPropagation();viewProduct(\''+p.id+'\')" aria-label="View details: '+sanitize(p.name)+'">'+sanitize(p.name)+'</button>'
       +'<div class="product-price">₦'+Number(p.price).toLocaleString()+'</div>'
       +'<div class="product-meta">'+sanitize(p.qty||'')+(p.unit?' '+sanitize(p.unit):'')+(p.availability?' · '+sanitize(p.availability):'')+'</div>'
       +'<div class="product-location">📍 '+sanitize(p.location||'')+'</div></div></div>';
