@@ -393,6 +393,8 @@ function initials(name) {
   return String(name || '?').trim().split(/\s+/).slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase() || '?';
 }
 function updateAcctBtn() {
+  var adm = document.getElementById('nav-admin-item');
+  if (adm) adm.hidden = !GF.isAdmin;
   var b = document.getElementById('acct-btn');
   if (!b) return;
   if (GF.user) {

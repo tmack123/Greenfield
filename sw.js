@@ -1,5 +1,5 @@
 // GreenField service worker: offline app shell
-var CACHE = 'greenfield-v2';
+var CACHE = 'greenfield-v3';
 var SHELL = ['./', './index.html', './backend.js', './config.js', './manifest.json',
              './icons/icon-192.png', './icons/icon-512.png'];
 

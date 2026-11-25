@@ -47,18 +47,29 @@ img{max-width:100%}
 button{cursor:pointer;font-family:inherit}
 input,select,textarea{font-family:inherit}
 
+[hidden]{display:none!important}
 /* NAV */
 .top-nav{position:sticky;top:env(safe-area-inset-top,0);z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);height:var(--nav-h);display:flex;align-items:center;padding:0 16px;gap:8px;box-shadow:var(--shadow)}
 .nav-brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.1rem;color:var(--accent);margin-right:auto}
 .nav-brand-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-.nav-tabs{display:flex;gap:2px}
-.nav-tab{background:none;border:none;padding:8px 14px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;color:var(--fg3);transition:all .2s;position:relative}
+.nav-menu{position:relative}
+.nav-menu-btn{display:flex;align-items:center;gap:7px;padding:7px 12px;border:1.5px solid var(--border);background:var(--bg2);border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;color:var(--fg);position:relative;transition:all .2s}
+.nav-menu-btn:hover,.nav-menu.open .nav-menu-btn{background:var(--bg3);border-color:var(--accent)}
+.nav-menu-btn .caret{font-size:.65rem;color:var(--fg3);transition:transform .2s}
+.nav-menu.open .caret{transform:rotate(180deg)}
+.nav-dot{position:absolute;top:-5px;right:-5px;width:12px;height:12px;border-radius:50%;background:var(--danger);border:2px solid var(--bg2)}
+.nav-tabs{display:none;position:absolute;right:0;top:calc(100% + 8px);min-width:210px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:6px;flex-direction:column;gap:2px;z-index:300;animation:menuIn .15s ease}
+.nav-menu.open .nav-tabs{display:flex}
+@keyframes menuIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.nav-sep{height:1px;background:var(--border);margin:4px 6px}
+.nav-tab{background:none;border:none;padding:10px 12px;border-radius:var(--radius-sm);font-size:.9rem;font-weight:600;color:var(--fg2);transition:all .2s;position:relative;text-align:left;width:100%;display:flex;align-items:center;gap:10px}
 .nav-tab.active{background:var(--accent-light);color:var(--accent)}
 .nav-tab:hover:not(.active){background:var(--bg3)}
+.nav-tabs .nav-badge{position:static;margin-left:auto}
 .nav-badge{position:absolute;top:4px;right:4px;background:var(--danger);color:#fff;border-radius:99px;font-size:.6rem;font-weight:700;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;padding:0 4px}
 .theme-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;font-size:1rem;color:var(--fg);transition:all .2s}
 .theme-btn:hover{background:var(--bg3)}
-@media(max-width:700px){.nav-tabs{display:none}}
+@media(max-width:700px){.nav-menu-btn .nav-menu-text{display:none}}
 
 /* BOTTOM NAV */
 .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg2);border-top:1px solid var(--border);height:var(--bnav-h);padding-bottom:env(safe-area-inset-bottom,0);display:none;align-items:center;justify-content:space-around}
@@ -348,12 +359,21 @@ select.form-input{cursor:pointer}
 <!-- TOP NAV -->
 <nav class="top-nav" role="navigation" aria-label="Main navigation">
   <div class="nav-brand"><div class="nav-brand-icon" aria-hidden="true">🌱</div>GreenField</div>
-  <div class="nav-tabs" role="tablist">
-    <button class="nav-tab active" role="tab" onclick="showPage('home',this)" aria-label="Home">🏠 Home</button>
-    <button class="nav-tab" role="tab" onclick="showPage('soil',this)" aria-label="Soil Analyzer">🧪 Soil</button>
-    <button class="nav-tab" role="tab" onclick="showPage('weather',this)" aria-label="Weather">🌤 Weather</button>
-    <button class="nav-tab" role="tab" onclick="showPage('market',this)" aria-label="Marketplace">🛒 Market</button>
-    <button class="nav-tab" role="tab" onclick="showPage('notif',this)" aria-label="Alerts" id="notif-nav-tab">🔔 Alerts<span class="nav-badge" id="notif-badge" hidden></span></button>
+  <div class="nav-menu" id="nav-menu">
+    <button class="nav-menu-btn" id="nav-menu-btn" onclick="toggleNavMenu(event)" aria-haspopup="menu" aria-expanded="false" aria-controls="nav-menu-list">
+      <span aria-hidden="true">☰</span><span class="nav-menu-text" id="nav-menu-label">Home</span><span class="caret" aria-hidden="true">▾</span>
+      <span class="nav-dot" id="nav-menu-dot" hidden></span>
+    </button>
+    <div class="nav-tabs" id="nav-menu-list" role="menu" aria-label="Pages">
+      <button class="nav-tab active" role="menuitem" onclick="navGo('home',this)">🏠 Home</button>
+      <button class="nav-tab" role="menuitem" onclick="navGo('soil',this)">🧪 Soil Analyzer</button>
+      <button class="nav-tab" role="menuitem" onclick="navGo('weather',this)">🌤 Weather</button>
+      <button class="nav-tab" role="menuitem" onclick="navGo('market',this)">🛒 Marketplace</button>
+      <button class="nav-tab" role="menuitem" onclick="navGo('notif',this)" id="notif-nav-tab">🔔 Alerts<span class="nav-badge" id="notif-badge" hidden></span></button>
+      <div class="nav-sep" role="separator"></div>
+      <button class="nav-tab nav-extra" role="menuitem" data-page="profile" onclick="closeNavMenu();onAccountClick()">👤 Account</button>
+      <button class="nav-tab nav-extra" role="menuitem" data-page="admin" id="nav-admin-item" onclick="navGo('admin',this)" hidden>🛡 Admin Panel</button>
+    </div>
   </div>
   <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle dark/light mode" title="Toggle theme">🌙</button>
   <button class="acct-btn" id="acct-btn" onclick="onAccountClick()" aria-label="Account" title="Account">👤</button>
@@ -1049,6 +1069,35 @@ function levelLabel(l) {
 // NAVIGATION
 // ============================================================
 var pageOrder = ['home','soil','weather','market','notif'];
+var PAGE_LABELS = {home:'Home', soil:'Soil Analyzer', weather:'Weather', market:'Marketplace', notif:'Alerts', profile:'Account', admin:'Admin Panel'};
+function toggleNavMenu(e) {
+  if (e) e.stopPropagation();
+  var m = document.getElementById('nav-menu');
+  var open = !m.classList.contains('open');
+  m.classList.toggle('open', open);
+  document.getElementById('nav-menu-btn').setAttribute('aria-expanded', open);
+  if (open) { var a = m.querySelector('.nav-tab.active') || m.querySelector('.nav-tab'); if (a) a.focus(); }
+}
+function closeNavMenu() {
+  var m = document.getElementById('nav-menu');
+  if (!m || !m.classList.contains('open')) return;
+  m.classList.remove('open');
+  document.getElementById('nav-menu-btn').setAttribute('aria-expanded', 'false');
+}
+function navGo(id, el) { showPage(id, el); }
+document.addEventListener('click', function(e){ var m=document.getElementById('nav-menu'); if (m && !m.contains(e.target)) closeNavMenu(); });
+document.addEventListener('keydown', function(e){
+  var m = document.getElementById('nav-menu');
+  if (!m || !m.classList.contains('open')) return;
+  if (e.key === 'Escape') { closeNavMenu(); document.getElementById('nav-menu-btn').focus(); return; }
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    var items = Array.prototype.filter.call(m.querySelectorAll('.nav-tab'), function(x){ return !x.hidden; });
+    var i = items.indexOf(document.activeElement);
+    i = e.key === 'ArrowDown' ? (i + 1) % items.length : (i - 1 + items.length) % items.length;
+    items[i].focus();
+  }
+});
 function showPage(id, triggerEl) {
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
@@ -1062,7 +1111,13 @@ function showPage(id, triggerEl) {
   if (idx >= 0) {
     if (navTabs[idx]) navTabs[idx].classList.add('active');
     if (bnavBtns[idx]) bnavBtns[idx].classList.add('active');
+  } else {
+    var extra = document.querySelector('.nav-extra[data-page="'+id+'"]');
+    if (extra) extra.classList.add('active');
   }
+  var lbl = document.getElementById('nav-menu-label');
+  if (lbl) lbl.textContent = PAGE_LABELS[id] || 'Menu';
+  closeNavMenu();
   if (id === 'weather') {
     var showing = document.getElementById('weather-content').classList.contains('show');
     if (!showing || !weatherCurrentLocation || weatherCurrentLocation !== document.getElementById('weather-location-select').value) {
@@ -1122,10 +1177,12 @@ function updateNotifBadge() {
   if (count > 0) {
     badge.textContent = count > 9 ? '9+' : count;
     badge.hidden = false;
+    document.getElementById('nav-menu-dot').hidden = false;
     bBadge.textContent = count > 9 ? '9+' : count;
     bBadge.hidden = false;
   } else {
     badge.hidden = true;
+    document.getElementById('nav-menu-dot').hidden = true;
     bBadge.hidden = true;
   }
 }
